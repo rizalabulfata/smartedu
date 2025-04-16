@@ -42,8 +42,8 @@
                         </div>
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title font-weight-bold"><?= $val->judul ?></h5>
-                            <p class="card-text text-muted"><?= substr(strip_tags($val->deskripsi), 0, 100) ?>...</p>
-                            <p class="card-text">
+                            <p class="card-text text-muted"><?= substr(strip_tags($val->deskripsi), 0, 30) ?>...</p>
+                            <p class="card-text small mb-2">
                                 <i class="fas fa-calendar-alt"></i> Mulai :
                                 <?= date('d M Y, h.m', strtotime($val->tgl_mulai)) ?> WIB
                             </p>
@@ -51,10 +51,14 @@
                             $waktu_sekarang = date('Y-m-d H:i');
                             $warna = (strtotime($val->tgl_selesai) < strtotime($waktu_sekarang)) ? 'text-danger' : 'text-dark';
                             ?>
-                            <p class="card-text <?= $warna ?>">
+                            <p class="card-text small mb-2 <?= $warna ?>">
                                 <i class="fas fa-calendar-alt"></i> Selesai :
                                 <?= date('d M Y, h.m', strtotime($val->tgl_selesai)) ?> WIB
                             </p>
+
+                            <div class="text-muted small mb-2">
+                                <i class="fa fa-user me-1"></i> Dibuat oleh : <?= $guru->nama ?>
+                            </div>
 
                             <!-- Gunakan mt-auto agar tombol selalu di bawah -->
                             <div class="mt-auto">

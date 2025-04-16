@@ -58,6 +58,7 @@ class Ujian extends CI_Controller {
 	public function tambah()
 	{
 		$rules_ujian = $this->ujian_model->rules();
+		$rules_mapel = $this->mapel_model->rules();
 		$rules = array_merge($rules_ujian, $rules_mapel);
 		$this->form_validation->set_rules($rules);
 		if ($this->form_validation->run() == TRUE) {

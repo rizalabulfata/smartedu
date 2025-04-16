@@ -4,14 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link rel="icon" type="image/x-icon" href="<?= base_url('assets/img/Logo_Smartedu.svg'); ?>">
-    <title>Dashboard - Smartedu</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
+    <link rel="icon" type="image/x-icon" href="<?= base_url('assets/img/Logo_Smartedu.svg'); ?>">
+    <title>Dashboard - Smartedu</title>
     <!-- Favicons -->
-    <link href="<?= base_url('assets_dashboard/img/favicon.png') ?>" rel="icon">
-    <link href="<?= base_url('assets_dashboard/img/apple-touch-icon.png') ?>" rel="apple-touch-icon">
+    <!-- <link href="<?= base_url('assets_dashboard/img/favicon.png') ?>" rel="icon"> -->
+    <!-- <link href="<?= base_url('assets_dashboard/img/apple-touch-icon.png') ?>" rel="apple-touch-icon"> -->
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -76,18 +76,21 @@
                         <li><a href="<?= base_url('materi')?>">Materi</a></li>
                         <li><a href="<?= base_url('proyek')?>">Proyek</a></li>
                         <li><a href="<?= base_url('ujian')?>">Ujian</a></li>
-                        <li><a href="">Kalender</a></li>
+                        <li><a href="<?= base_url('kalender')?>">Kalender</a></li>
+                        <?php if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 ){?>
                         <li class="dropdown"><a href="#"><span>Master Data</span> <i
                                     class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-
                                 <li><a href="<?= base_url('guru')?>">Data Guru</a></li>
                                 <li><a href="<?= base_url('siswa')?>">Data Siswa</a></li>
                                 <li><a href="<?= base_url('mapel')?>">Data Mata Pelajaran</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown"><a href="#"><span>Hai, <?= $this->session->userdata('nama');?></span> <i
-                                    class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <?php } ?>
+                        <li class="dropdown">
+                            <a href="#"><span>Hai, <?= $this->session->userdata('nama');?></span> <i
+                                    class="bi bi-chevron-down toggle-dropdown"></i>
+                            </a>
                             <ul>
                                 <li><a href="<?= base_url('logout');?>">Logout</a></li>
                             </ul>
@@ -108,12 +111,14 @@
 
             <img src="assets_dashboard/img/unesa.webp" alt="" data-aos="fade-in">
 
-            <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="container py-5" data-aos="fade-up" data-aos-delay="100">
                 <div class="row justify-content-start">
                     <div class="col-lg-8">
                         <h2>Welcome to Smartedu</h2>
-                        <p>Website sekolah untuk kamu</p>
-                        <a href="#about" class="btn-get-started">Get Started</a>
+                        <h6>TERSTRUKTUR, EFISIEN, MUDAH DIAKSES </h6>
+                        <br>
+                        <p>Sebuah platform digital berbasis web yang dirancang khusus untuk mendukung
+                            kegiatan pembelajaran project-based learning di lingkungan sekolah</p>
                     </div>
                 </div>
             </div>

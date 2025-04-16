@@ -33,7 +33,8 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="row">
-                <?php foreach($materi as $val) : ?>
+                <?php if(!empty($materi)) : ?>
+                <?php foreach($materi as $val) :  ?>
                 <div class="col-md-4">
                     <div class="card mb-3 shadow-sm">
                         <div class="card-header">
@@ -62,6 +63,9 @@
                     </div>
                 </div>
                 <?php endforeach; ?>
+                <?php else: ?>
+                <p class="text-center">Belum ada data materi</p> <!-- Jika array kosong, tampilkan pesan -->
+                <?php endif; ?>
             </div>
         </div>
     </div>

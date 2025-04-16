@@ -23,8 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/smartedu/';
 
+$config['base_url'] = 'http://localhost/smartedu/';
+// $config['base_url'] = 'https://ad8e-180-247-56-77.ngrok-free.app/smartedu/';
 /*
 |--------------------------------------------------------------------------
 | Index File

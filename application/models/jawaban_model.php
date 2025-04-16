@@ -71,6 +71,7 @@ class jawaban_model extends CI_Model {
 		$uuid = Uuid::uuid4()->toString();
 		$kelompok_nama = $this->input->post('kelompok_nama');
 		$kelompok_uuid = $this->input->post('kelompok_uuid');
+		$keterangan_file = $this->input->post('keterangan_file');
 		
 		$data = [
 			'uuid' => $uuid,
@@ -79,6 +80,7 @@ class jawaban_model extends CI_Model {
 			'kelompok_uuid' => $kelompok_uuid,
 			'jawaban_text' => $jawaban_text,
 			'jawaban_file' => $jawaban_file,
+			'keterangan_file' => $keterangan_file,
 			'created_by' => $this->session->userdata('uuid')
 		];
 		

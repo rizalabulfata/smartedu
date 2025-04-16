@@ -85,6 +85,14 @@ class Proyek_model extends CI_Model {
 		return $data;
 	}
 
+	public function get_komentar_by_proyek_uuid($uuid)
+	{
+		$this->db->where('proyek_uuid', $uuid);
+		$data = $this->db->get('komentar')->row();
+
+		return $data;
+	}
+
 	public function delete_by_uuid($uuid)
 	{
 		$data = array(

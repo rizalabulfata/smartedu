@@ -9,6 +9,7 @@ class Proyek extends CI_Controller {
 		$this->load->model('mapel_model');
 		$this->load->model('proyek_model');
 		$this->load->model('guru_model');
+		$this->load->model('komentar_model');
 		$this->load->model('kelompok_model');
 		$this->load->model('jawaban_model');
 		$this->load->model('siswa_model');
@@ -35,17 +36,19 @@ class Proyek extends CI_Controller {
 				$mapel = $this->mapel_model->get_by_uuid($py->mapel_uuid);
 				$py->mapel = $mapel->nama;
 			}
+			$guru = $this->guru_model->get_by_uuid($py->created_by);
+			$py->guru = $guru->nama;
 		}
 		
 		$data = array(
 			'proyek' => $proyek,
+			'guru' =>$guru,
 			'active_nav' => 'proyek'
 		);
 		
 		// echo"<pre>";
 		// print_r($data);
 		// echo"</pre>";
-		
 		
         $this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
@@ -121,6 +124,7 @@ class Proyek extends CI_Controller {
 		$proyek = $this->proyek_model->get_by_uuid($proyek_uuid);
 		$kelompok = $this->kelompok_model->get_by_proyek_uuid($proyek_uuid);
 		$user_login = $this->session->userdata('uuid');
+		$komentar = $this->komentar_model->get_by_proyek_uuid($proyek_uuid);
 		
 		$pengerjaan = false;
 		$kelompok_nama = null;
@@ -144,6 +148,17 @@ class Proyek extends CI_Controller {
 			$pengumpulan = true;
 		}
 
+		//cari nama pengomentar
+		foreach ($komentar as $kom) {
+			$nama_guru = $this->guru_model->get_by_uuid($kom->created_by);
+			if (!$nama_guru){
+				$nama_siswa = $this->siswa_model->get_by_uuid($kom->created_by);
+				$kom->pengomen = $nama_siswa->nama;
+			} else{
+				$kom->pengomen = $nama_guru->nama;
+			}
+		}
+
 		$data = array(
 			'kelompok_nama' => $kelompok_nama,
 			'kelompok_siswa' => $kelompok_siswa,
@@ -151,13 +166,14 @@ class Proyek extends CI_Controller {
 			'pengerjaan' => $pengerjaan,
 			'proyek' => $proyek,
 			'kelompok' => $kelompok,
+			'komentar' => $komentar,
 			'jawaban' =>$this->jawaban_model->get_by_proyek_uuid($proyek->uuid),
 			'guru' =>$this->guru_model->get_by_uuid($proyek->created_by),
 			'active_nav' => 'proyek'
 		);
 
 		// echo "<pre>";
-		// print_r($data);
+		// print_r($data['jawaban']);
 		// echo "</pre>";
 		
         $this->load->view('partials/header');
@@ -256,6 +272,23 @@ class Proyek extends CI_Controller {
 			}
 			redirect($_SERVER['HTTP_REFERER']);
 		}
+	}
+
+	public function komentar_tambah($proyek_uuid)
+	{
+        $rules = $this->komentar_model->rules();
+		$this->form_validation->set_rules($rules);
+
+		if ($this->form_validation->run() == TRUE) {
+			$insert = $this->komentar_model->insert($proyek_uuid);
+			if ($insert) {
+				$this->session->set_flashdata('success_msg', 'Data komentar berhasil di simpan');
+			}else {
+				$this->session->set_flashdata('error_msg', 'Data komentar gagal di simpan');
+			}
+			redirect('proyek/detail/'.$proyek_uuid);
+		}
+		redirect('proyek/detail/'.$proyek_uuid);
 	}
 
 }
