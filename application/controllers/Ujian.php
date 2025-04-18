@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Ujian extends CI_Controller {
+class Ujian extends CI_Controller
+{
 
 	public function __construct()
 	{
@@ -15,7 +16,7 @@ class Ujian extends CI_Controller {
 		$this->load->model('soal_model');
 		$this->load->library('form_validation');
 		$this->load->model('auth_model');
-		if(!$this->auth_model->current_user()){
+		if (!$this->auth_model->current_user()) {
 			redirect('login');
 		}
 	}
@@ -23,13 +24,13 @@ class Ujian extends CI_Controller {
 	public function index()
 	{
 		$ujian = $this->ujian_model->get_all();
-		
-		$user_login = $this->session->userdata('uuid'); 
+
+		$user_login = $this->session->userdata('uuid');
 
 		foreach ($ujian as $u) {
 			$pengerjaan = false;
 			$peserta = $this->siswa_model->get_by_ujian($u->uuid);
-			foreach ($peserta as $p){
+			foreach ($peserta as $p) {
 				if ($p->ujian_uuid == $u->uuid && $p->siswa_uuid == $user_login) {
 					$pengerjaan = true;
 					break;
@@ -37,21 +38,21 @@ class Ujian extends CI_Controller {
 			}
 			$u->pengerjaan = $pengerjaan;
 		}
-		
+
 		$data = array(
 			'ujian' => $ujian,
 			'user' => $user_login,
-			'peserta' => $peserta,
+			'peserta' => $peserta ?? null,
 			'active_nav' => 'ujian'
 		);
 		// echo"<pre>";
 		// print_r($data);
 		// echo"</pre>";
-		
-        $this->load->view('partials/header');
+
+		$this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
-        $this->load->view('partials/topbar');
-        $this->load->view('ujian/ujian', $data);
+		$this->load->view('partials/topbar');
+		$this->load->view('ujian/ujian', $data);
 		$this->load->view('partials/footer');
 	}
 
@@ -65,18 +66,17 @@ class Ujian extends CI_Controller {
 			$insert = $this->ujian_model->insert();
 			if ($insert) {
 				$this->session->set_flashdata('success_msg', 'Data ujian berhasil disimpan');
-				
+
 				$action = $this->input->post('action');
 				if ($action == 'simpan') {
 					redirect('ujian');
 				} elseif ($action == 'simpan_detail') {
-					redirect('ujian/tambah_soal/'.$insert);	
-				} 
+					redirect('ujian/tambah_soal/' . $insert);
+				}
 			} else {
 				$this->session->set_flashdata('error_msg', 'Gagal menyimpan data ujian');
-				redirect('ujian/tambah');	
+				redirect('ujian/tambah');
 			}
-		
 		}
 
 		$mapel = $this->mapel_model->get_all();
@@ -85,10 +85,10 @@ class Ujian extends CI_Controller {
 			'active_nav' => 'ujian'
 		);
 
-        $this->load->view('partials/header');
+		$this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
-        $this->load->view('partials/topbar');
-        $this->load->view('ujian/ujian-tambah', $data);
+		$this->load->view('partials/topbar');
+		$this->load->view('ujian/ujian-tambah', $data);
 		$this->load->view('partials/footer');
 	}
 
@@ -107,12 +107,12 @@ class Ujian extends CI_Controller {
 			$insert = $this->soal_model->insert();
 			if ($insert) {
 				$this->session->set_flashdata('success_msg', 'Data Soal berhasil di simpan');
-			}else {
+			} else {
 				$this->session->set_flashdata('error_msg', 'Data Soal gagal di simpan');
 			}
-			redirect('ujian/tambah_soal/'.$ujian_uuid);
+			redirect('ujian/tambah_soal/' . $ujian_uuid);
 		}
-		
+
 		$data = array(
 			'ujian' => $this->ujian_model->get_by_uuid($ujian_uuid),
 			'soal' => $this->soal_model->get_by_ujian_uuid($ujian_uuid),
@@ -122,11 +122,11 @@ class Ujian extends CI_Controller {
 		// echo"<pre>";
 		// print_r($data);
 		// echo"</pre>";
-		
-        $this->load->view('partials/header');
+
+		$this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
-        $this->load->view('partials/topbar');
-        $this->load->view('ujian/ujian-soal', $data);
+		$this->load->view('partials/topbar');
+		$this->load->view('ujian/ujian-soal', $data);
 		$this->load->view('partials/footer');
 	}
 
@@ -145,15 +145,15 @@ class Ujian extends CI_Controller {
 			$insert = $this->siswa_model->insert_on_ujian();
 			if ($insert) {
 				$this->session->set_flashdata('success_msg', 'Data siswa berhasil di simpan');
-			}else {
+			} else {
 				$this->session->set_flashdata('error_msg', 'Data siswa gagal di simpan');
 			}
-			redirect('ujian/tambah_siswa/'.$ujian_uuid);
+			redirect('ujian/tambah_siswa/' . $ujian_uuid);
 		}
 
 		$ujian = $this->ujian_model->get_by_uuid($ujian_uuid);
 		$peserta = $this->siswa_model->get_by_ujian($ujian_uuid);
-		
+
 		$data = array(
 			'ujian' => $ujian,
 			'peserta' => $peserta,
@@ -164,41 +164,41 @@ class Ujian extends CI_Controller {
 		// echo"<pre>";
 		// print_r($data);
 		// echo"</pre>";
-		
-        $this->load->view('partials/header');
+
+		$this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
-        $this->load->view('partials/topbar');
-        $this->load->view('ujian/ujian-siswa', $data);
+		$this->load->view('partials/topbar');
+		$this->load->view('ujian/ujian-siswa', $data);
 		$this->load->view('partials/footer');
 	}
-	
+
 	public function tambah_nilai($ujian_uuid, $siswa_uuid)
 	{
 		if ($this->input->server('REQUEST_METHOD') === 'POST') {
-            $insert = $this->jawaban_model->insert_nilai($ujian_uuid, $siswa_uuid);
-            if ($insert) {
+			$insert = $this->jawaban_model->insert_nilai($ujian_uuid, $siswa_uuid);
+			if ($insert) {
 				$this->session->set_flashdata('success_msg', 'Nilai berhasil disimpan');
-            } else {
+			} else {
 				$this->session->set_flashdata('error_msg', 'Nilai gagal disimpan');
-            }
-            redirect('ujian/tambah_siswa/'.$ujian_uuid	);
-        }
-		
+			}
+			redirect('ujian/tambah_siswa/' . $ujian_uuid);
+		}
+
 		$ujian = $this->ujian_model->get_by_uuid($ujian_uuid);
 		$guru = $this->guru_model->get_by_uuid($ujian->created_by);
 		$mapel = $this->mapel_model->get_by_uuid($ujian->mapel_uuid);
 		$soal = $this->soal_model->get_by_ujian_uuid($ujian_uuid);
 		$siswa = $this->siswa_model->get_by_uuid($siswa_uuid);
 		//ambil jawaban tiap soal
-		$jawaban =[];
+		$jawaban = [];
 		foreach ($soal as $d) {
 			$jawaban[$d->uuid] = $this->jawaban_model->get_by_soal_uuid($d->uuid, $siswa_uuid);
 		}
-		if($jawaban != NULL){
+		if ($jawaban != NULL) {
 			//ambil nilai total 
 			$total_nilai = 0;
 			$jumlah_soal = count($soal); // Menghitung jumlah soal
-	
+
 			foreach ($jawaban as $uuid => $data) {
 				if (!empty($data[0]->nilai)) {
 					$total_nilai += $data[0]->nilai;
@@ -207,7 +207,7 @@ class Ujian extends CI_Controller {
 			$rata_rata = ($jumlah_soal > 0) ? ($total_nilai / $jumlah_soal) : 0;
 			$nilai_ujian = number_format($rata_rata, 2);
 		}
-		
+
 		$data = array(
 			'mapel' => $mapel->nama,
 			'siswa' => $siswa,
@@ -222,26 +222,26 @@ class Ujian extends CI_Controller {
 		// echo"<pre>";
 		// print_r($data);
 		// echo"</pre>";
-		
+
 		$this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
-        $this->load->view('partials/topbar');
-        $this->load->view('ujian/ujian-nilai', $data);
+		$this->load->view('partials/topbar');
+		$this->load->view('ujian/ujian-nilai', $data);
 		$this->load->view('partials/footer');
 	}
 
 	public function pengerjaan($ujian_uuid)
 	{
 		if ($this->input->server('REQUEST_METHOD') === 'POST') {
-            $insert = $this->jawaban_model->insert($ujian_uuid);
-            if ($insert) {
-                $this->session->set_flashdata('success_msg', 'Ujian berhasil disimpan');
-            } else {
-                $this->session->set_flashdata('error_msg', 'Ujian gagal disimpan');
-            }
-            redirect('ujian');
-        }
-	
+			$insert = $this->jawaban_model->insert($ujian_uuid);
+			if ($insert) {
+				$this->session->set_flashdata('success_msg', 'Ujian berhasil disimpan');
+			} else {
+				$this->session->set_flashdata('error_msg', 'Ujian gagal disimpan');
+			}
+			redirect('ujian');
+		}
+
 		$data = array(
 			'ujian' => $this->ujian_model->get_by_uuid($ujian_uuid),
 			'soal' => $this->soal_model->get_by_ujian_uuid($ujian_uuid)
@@ -250,12 +250,12 @@ class Ujian extends CI_Controller {
 		// echo"<pre>";
 		// print_r($data);
 		// echo"</pre>";
-		
-        $this->load->view('ujian/ujian-pengerjaan', $data);
+
+		$this->load->view('ujian/ujian-pengerjaan', $data);
 	}
 
-	public function hapus_siswa($relasi_uuid){
-		{
+	public function hapus_siswa($relasi_uuid)
+	{ {
 			$result = $this->siswa_model->delete_siswa_ujian_by_uuid($relasi_uuid);
 			if ($result) {
 				$this->session->set_flashdata('success_msg', 'Data siswa ujian berhasil dihapus');

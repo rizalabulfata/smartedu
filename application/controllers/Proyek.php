@@ -43,7 +43,7 @@ class Proyek extends CI_Controller
 
 		$data = array(
 			'proyek' => $proyek,
-			'guru' => $guru,
+			'guru' => $guru ?? null,
 			'active_nav' => 'proyek'
 		);
 
