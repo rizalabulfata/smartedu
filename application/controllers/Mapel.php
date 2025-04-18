@@ -1,16 +1,17 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Mapel extends CI_Controller {
+class Mapel extends CI_Controller
+{
 
-    public function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
 		$this->load->model('mapel_model');
 		$this->load->library('form_validation');
 		$this->load->model('auth_model');
-		if(!$this->auth_model->current_user()){
+		if (!$this->auth_model->current_user()) {
 			redirect('login');
 		}
 	}
@@ -21,21 +22,21 @@ class Mapel extends CI_Controller {
 			'mapel' => $this->mapel_model->get_all(),
 			'active_nav' => 'mapel'
 		);
-		
+
 		// echo "<pre>";
 		// print_r($data);
 		// echo "</pre>";
 
-        $this->load->view('partials/header');
+		$this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
-        $this->load->view('partials/topbar');
-        $this->load->view('Mapel/mapel', $data);
+		$this->load->view('partials/topbar');
+		$this->load->view('mapel/mapel', $data);
 		$this->load->view('partials/footer');
 	}
-    
-    public function tambah()
+
+	public function tambah()
 	{
-        $rules = $this->mapel_model->rules();
+		$rules = $this->mapel_model->rules();
 		$this->form_validation->set_rules($rules);
 
 		if ($this->form_validation->run() == TRUE) {
@@ -43,9 +44,8 @@ class Mapel extends CI_Controller {
 			if ($insert) {
 				$this->session->set_flashdata('success_msg', 'Data mata pelajaran berhasil di simpan');
 				// redirect('mapel');
-			}else {
+			} else {
 				$this->session->set_flashdata('error_msg', 'Data mata pelajaran gagal di simpan');
-				
 			}
 			redirect('mapel');
 		}
@@ -53,15 +53,16 @@ class Mapel extends CI_Controller {
 		$data = array(
 			'active_nav' => 'mapel'
 		);
-        
-        $this->load->view('partials/header',$data);
+
+		$this->load->view('partials/header', $data);
 		$this->load->view('partials/sidebar');
-        $this->load->view('partials/topbar',$data);
-        $this->load->view('mapel/mapel-tambah',$data);
+		$this->load->view('partials/topbar', $data);
+		$this->load->view('mapel/mapel-tambah', $data);
 		$this->load->view('partials/footer');
 	}
 
-	public function edit($uuid){
+	public function edit($uuid)
+	{
 		$rules = [
 			[
 				'field' => 'namaMapel',
@@ -76,7 +77,7 @@ class Mapel extends CI_Controller {
 			if ($update) {
 				$this->session->set_flashdata('success_msg', 'Data Mata Pelajaran berhasil di Update');
 				redirect('mapel');
-			}else {
+			} else {
 				$this->session->set_flashdata('error_msg', 'Data Mata Pelajaran gagal di Update');
 				redirect('mapel');
 			}
@@ -89,13 +90,13 @@ class Mapel extends CI_Controller {
 
 		$this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
-        $this->load->view('partials/topbar');
-        $this->load->view('mapel/mapel-edit', $data);
+		$this->load->view('partials/topbar');
+		$this->load->view('mapel/mapel-edit', $data);
 		$this->load->view('partials/footer');
 	}
 
-	public function hapus($uuid){
-		{
+	public function hapus($uuid)
+	{ {
 			$result = $this->mapel_model->delete_by_uuid($uuid);
 			if ($result) {
 				$this->session->set_flashdata('success_msg', 'Data mata pelajaran berhasil dihapus');
@@ -105,5 +106,4 @@ class Mapel extends CI_Controller {
 			redirect($_SERVER['HTTP_REFERER']);
 		}
 	}
-    
 }

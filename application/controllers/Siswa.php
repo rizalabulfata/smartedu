@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class siswa extends CI_Controller {
+class siswa extends CI_Controller
+{
 
 	public function __construct()
 	{
@@ -10,7 +11,7 @@ class siswa extends CI_Controller {
 		$this->load->model('siswa_model');
 		$this->load->library('form_validation');
 		$this->load->model('auth_model');
-		if(!$this->auth_model->current_user()){
+		if (!$this->auth_model->current_user()) {
 			redirect('login');
 		}
 	}
@@ -23,21 +24,21 @@ class siswa extends CI_Controller {
 			'siswa' => $siswa,
 			'active_nav' => 'siswa'
 		);
-		
+
 		// echo "<pre>";
 		// print_r($data);
 		// echo "</pre>";
 
-        $this->load->view('partials/header');
+		$this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
-        $this->load->view('partials/topbar');
-        $this->load->view('Siswa/siswa', $data);
+		$this->load->view('partials/topbar');
+		$this->load->view('siswa/siswa', $data);
 		$this->load->view('partials/footer');
 	}
 
-    public function tambah()
+	public function tambah()
 	{
-        $rules = $this->siswa_model->rules();
+		$rules = $this->siswa_model->rules();
 		$this->form_validation->set_rules($rules);
 
 		if ($this->form_validation->run() == TRUE) {
@@ -45,7 +46,7 @@ class siswa extends CI_Controller {
 			if ($insert) {
 				$this->session->set_flashdata('success_msg', 'Data Siswa berhasil di simpan');
 				redirect('siswa');
-			}else {
+			} else {
 				$this->session->set_flashdata('error_msg', 'Data Siswa gagal di simpan');
 				redirect('siswa');
 			}
@@ -55,10 +56,10 @@ class siswa extends CI_Controller {
 			'active_nav' => 'siswa'
 		);
 
-        $this->load->view('partials/header');
+		$this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
-        $this->load->view('partials/topbar');
-        $this->load->view('siswa/siswa-tambah', $data);
+		$this->load->view('partials/topbar');
+		$this->load->view('siswa/siswa-tambah', $data);
 		$this->load->view('partials/footer');;
 	}
 }
