@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2025 at 07:21 AM
+-- Generation Time: Apr 19, 2025 at 02:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -173,7 +173,24 @@ CREATE TABLE `proyek_jawaban` (
   `kelompok_nama` varchar(100) DEFAULT NULL,
   `jawaban_text` text DEFAULT NULL,
   `jawaban_file` varchar(100) DEFAULT NULL,
+  `keterangan_file` text DEFAULT NULL,
   `nilai` float DEFAULT NULL,
+  `created_by` varchar(100) NOT NULL,
+  `modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `proyek_komentar`
+--
+
+CREATE TABLE `proyek_komentar` (
+  `id` int(11) NOT NULL,
+  `uuid` varchar(100) NOT NULL,
+  `proyek_uuid` varchar(100) NOT NULL,
+  `komentar` text NOT NULL,
   `created_by` varchar(100) NOT NULL,
   `modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `deleted_at` datetime DEFAULT NULL
@@ -327,6 +344,12 @@ ALTER TABLE `proyek_jawaban`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `proyek_komentar`
+--
+ALTER TABLE `proyek_komentar`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `siswa`
 --
 ALTER TABLE `siswa`
@@ -412,6 +435,12 @@ ALTER TABLE `proyek`
 -- AUTO_INCREMENT for table `proyek_jawaban`
 --
 ALTER TABLE `proyek_jawaban`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `proyek_komentar`
+--
+ALTER TABLE `proyek_komentar`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
