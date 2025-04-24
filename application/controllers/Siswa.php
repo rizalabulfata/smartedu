@@ -61,4 +61,52 @@ class siswa extends CI_Controller {
         $this->load->view('siswa/siswa-tambah', $data);
 		$this->load->view('partials/footer');;
 	}
+
+	public function edit($uuid){
+		$rules = [
+			[
+				'field' => 'namaLengkap',
+				'label' => 'Nama Lengkap',
+				'rules' => 'required'
+			],[
+				'field' => 'username',
+				'label' => 'Username',
+				'rules' => 'required'
+			],[
+				'field' => 'namaMapel',
+				'label' => 'Nama Siswa',
+				'rules' => 'required'
+			],[
+				'field' => 'jenisKelamin',
+				'label' => 'Jenis Kelamin',
+				'rules' => 'required'
+			],
+		];
+		$this->form_validation->set_rules($rules);
+
+		if ($this->form_validation->run() == TRUE) {
+			$update = $this->siswa_model->update($uuid);
+			if ($update) {
+				$this->session->set_flashdata('success_msg', 'Data Siswa berhasil di Update');
+				redirect('siswa');
+			}else {
+				$this->session->set_flashdata('error_msg', 'Data Siswa gagal di Update');
+				redirect('siswa');
+			}
+		}
+
+		$data = array(
+			'siswa' => $this->siswa_model->get_by_uuid($uuid),
+			'active_nav' => 'siswa'
+		);
+		// 		echo "<pre>";
+		// print_r($data);
+		// echo "</pre>";
+
+		$this->load->view('partials/header');
+		$this->load->view('partials/sidebar');
+        $this->load->view('partials/topbar');
+        $this->load->view('siswa/siswa-edit', $data);
+		$this->load->view('partials/footer');
+	}
 }
