@@ -64,6 +64,24 @@ class siswa_model extends CI_Model {
 		}
 	}
 
+	public function update($uuid)
+	{
+		$namaLengkap = $this->input->post('namaLengkap');
+		$username = $this->input->post('username');
+		$mapel_uuid = $this->input->post('namaMapel');
+		$jenisKelamin = $this->input->post('jenisKelamin');
+		$data = array(
+			'nis' => $nis,
+			'nama' => $namaLengkap,
+			'username' => $username,
+			'tgl_lahir' => $tanggal_lahir,
+            'jenis_kelamin' => $jenisKelamin
+			'modified_at' => date("Y-m-d H:i:s")
+		);
+		$this->db->update('siswa', $data, array('uuid' => $uuid));
+		return($this->db->affected_rows() > 0) ? true :false;
+	}
+
 	public function get_by_uuid($uuid)
 	{
 		$data = $this->db->get_where('siswa', array('uuid' => $uuid))->row();
