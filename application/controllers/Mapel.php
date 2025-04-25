@@ -29,7 +29,7 @@ class Mapel extends CI_Controller {
         $this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
         $this->load->view('partials/topbar');
-        $this->load->view('Mapel/mapel', $data);
+        $this->load->view('mapel/mapel', $data);
 		$this->load->view('partials/footer');
 	}
     

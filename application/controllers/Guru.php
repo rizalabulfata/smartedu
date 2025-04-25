@@ -37,7 +37,7 @@ class Guru extends CI_Controller {
         $this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
         $this->load->view('partials/topbar');
-        $this->load->view('Guru/guru', $data);
+        $this->load->view('guru/guru', $data);
 		$this->load->view('partials/footer');
 	}
 
@@ -68,7 +68,7 @@ class Guru extends CI_Controller {
         $this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
         $this->load->view('partials/topbar');
-        $this->load->view('Guru/guru-tambah', $data);
+        $this->load->view('guru/guru-tambah', $data);
 		$this->load->view('partials/footer');;
 	}
 

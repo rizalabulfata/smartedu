@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class siswa extends CI_Controller {
+class Siswa extends CI_Controller {
 
 	public function __construct()
 	{
@@ -31,7 +31,7 @@ class siswa extends CI_Controller {
         $this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
         $this->load->view('partials/topbar');
-        $this->load->view('Siswa/siswa', $data);
+        $this->load->view('siswa/siswa', $data);
 		$this->load->view('partials/footer');
 	}
 

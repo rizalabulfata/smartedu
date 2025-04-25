@@ -2,7 +2,7 @@
 date_default_timezone_set('Asia/Jakarta');
 use Ramsey\Uuid\Uuid;
 
-class Proyek_model extends CI_Model {
+class proyek_model extends CI_Model {
 
     public function rules()
 	{

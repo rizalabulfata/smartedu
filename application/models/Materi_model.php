@@ -56,6 +56,15 @@ class materi_model extends CI_Model {
 		return $data;
 	} 
 
+	public function delete_by_uuid($uuid)
+	{
+		$data = array(
+			'deleted_at' => date("Y-m-d H:i:s")
+		);
+		$this->db->update('materi', $data, array('uuid' => $uuid));
+		return($this->db->affected_rows() > 0) ? true :false;
+	}
+
 	
 }
 ?>

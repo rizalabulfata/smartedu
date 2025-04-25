@@ -37,9 +37,9 @@ class Materi extends CI_Controller {
 			'active_nav' => 'materi'
 		);
 		
-		// echo "<pre>";
-		// print_r($data);
-		// echo "</pre>";
+		echo "<pre>";
+		print_r($data);
+		echo "</pre>";
 		
         $this->load->view('partials/header');
 		$this->load->view('partials/sidebar');

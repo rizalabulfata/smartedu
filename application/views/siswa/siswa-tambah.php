@@ -26,6 +26,7 @@
                         <div class="invalid-feedback <?= !empty(form_error('nis')) ? 'd-block' : '' ; ?> ">
                             <?= form_error('nis') ?>
                         </div>
+                        <small>Kolom Nomor Induk Siswa hanya menerima dengan 10 angka</small>
                     </div>
                     <div class="col-sm-6">
                         <label class="form-label font-weight-bold">Nama Lengkap<span

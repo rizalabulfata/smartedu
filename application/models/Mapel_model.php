@@ -2,7 +2,7 @@
 date_default_timezone_set('Asia/Jakarta');
 use Ramsey\Uuid\Uuid;
 
-class Mapel_model extends CI_Model {
+class mapel_model extends CI_Model {
 
     public function __construct()
 	{

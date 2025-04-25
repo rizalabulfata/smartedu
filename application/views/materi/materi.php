@@ -55,10 +55,19 @@
                             <!-- <p class="text-muted">06 November 2024</p> -->
                             <h5 class="card-title"><?=$val->judul?></h5>
                             <p><i class="fas fa-user"></i> <?=$val->nama?></p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="<?= base_url('uploads/materi/'.$val->berkas)?>" target="_blank"
-                                    class="btn btn-primary">Klik untuk Melihat</a>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <a href="<?= base_url('uploads/materi/' . $val->berkas) ?>" target="_blank"
+                                    class="btn btn-primary">
+                                    Klik untuk Melihat
+                                </a>
+                                <?=($val->uuid)
+                                ?>
+                                <a href="<?= base_url('materi/hapus/' . $val->created_by) ?>" class="btn btn-danger"
+                                    onclick="return confirm('Apakah Anda yakin ingin menghapus materi <?= $val->judul; ?>?')">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </a>
                             </div>
+
                         </div>
                     </div>
                 </div>

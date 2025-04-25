@@ -18,7 +18,7 @@ class Home extends CI_Controller {
         // $this->load->view('partials/header');
 		// $this->load->view('partials/sidebar');
         // $this->load->view('partials/topbar');
-        $this->load->view('Home/home');
+        $this->load->view('home/home');
 		// $this->load->view('partials/footer');
 	}
 }
