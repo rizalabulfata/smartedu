@@ -47,7 +47,7 @@ class materi_model extends CI_Model {
 
 	public function get_all()
 	{
-		
+		$this->db->select('m.*, g.nama, m.uuid AS materi_uuid, m.created_by AS materi_created_by');
 		$this->db->join('guru g', 'm.created_by = g.uuid', 'left');
 		$this->db->where('m.deleted_at', NULL, FALSE);
 		$this->db->order_by('m.modified_at', 'DESC');
