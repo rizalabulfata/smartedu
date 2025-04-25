@@ -66,16 +66,17 @@ class siswa_model extends CI_Model {
 
 	public function update($uuid)
 	{
+		$nis = $this->input->post('nis');
 		$namaLengkap = $this->input->post('namaLengkap');
 		$username = $this->input->post('username');
-		$mapel_uuid = $this->input->post('namaMapel');
+		$tanggal_lahir = $this->input->post('tanggal_lahir');
 		$jenisKelamin = $this->input->post('jenisKelamin');
 		$data = array(
 			'nis' => $nis,
 			'nama' => $namaLengkap,
 			'username' => $username,
 			'tgl_lahir' => $tanggal_lahir,
-            'jenis_kelamin' => $jenisKelamin
+            'jenis_kelamin' => $jenisKelamin,
 			'modified_at' => date("Y-m-d H:i:s")
 		);
 		$this->db->update('siswa', $data, array('uuid' => $uuid));
@@ -159,6 +160,15 @@ class siswa_model extends CI_Model {
 			'deleted_at' => date("Y-m-d H:i:s")
 		);
 		$this->db->update('ujian_siswa', $data, array('uuid' => $relasi_uuid));
+		return($this->db->affected_rows() > 0) ? true :false;
+	}
+	
+	public function delete_by_uuid($uuid)
+	{
+		$data = array(
+			'deleted_at' => date("Y-m-d H:i:s")
+		);
+		$this->db->update('siswa', $data, array('uuid' => $uuid));
 		return($this->db->affected_rows() > 0) ? true :false;
 	}
 }

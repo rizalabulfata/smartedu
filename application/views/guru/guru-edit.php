@@ -17,6 +17,7 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <form class="user" method="post" action="<?= base_url('guru/edit/'.$guru->uuid);?>">
+                <input type="hidden" name="uuid" value="<?= $guru->uuid ?>">
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <label class="form-label font-weight-bold">Nama Lengkap<span
@@ -30,7 +31,7 @@
                     <div class="col-sm-6">
                         <label class="form-label font-weight-bold">Username<span class="text-danger">*</span></label>
                         <input type="text" name="username" id="username" class="form-control"
-                            placeholder="Masukkan Username" value="<?= $guru->username; ?>" readonly>
+                            placeholder="Masukkan Username" value="<?= $guru->username; ?>">
                         <div class="invalid-feedback <?= !empty(form_error('username')) ? 'd-block' : '' ; ?> ">
                             <?= form_error('username') ?>
                         </div>

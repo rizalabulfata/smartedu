@@ -15,10 +15,8 @@ class Guru_model extends CI_Model {
 			[
 				'field' => 'username',
 				'label' => 'Username',
-				'rules' => 'required|is_unique[guru.username]|regex_match[/^[a-z]/]',
-				'errors' => array(
-				'regex_match' => 'The {field} field must start with a lowercase letter.'
-	            ),
+				'rules' => 'required|is_unique[guru.username]|regex_match[/^[a-z]/]'
+				
 			],
 			[
 				'field' => 'namaMapel',

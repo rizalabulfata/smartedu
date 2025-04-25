@@ -69,18 +69,22 @@ class siswa extends CI_Controller {
 				'label' => 'Nama Lengkap',
 				'rules' => 'required'
 			],[
+				'field' => 'nis',
+				'label' => 'Nomor Induk Siswa',
+				'rules' => 'required|regex_match[/^[0-9]{10}$/]|callback_nis_check'
+			],[
 				'field' => 'username',
 				'label' => 'Username',
-				'rules' => 'required'
-			],[
-				'field' => 'namaMapel',
-				'label' => 'Nama Siswa',
-				'rules' => 'required'
+				'rules' => 'required|regex_match[/^[a-z]/]|callback_username_check'
 			],[
 				'field' => 'jenisKelamin',
 				'label' => 'Jenis Kelamin',
 				'rules' => 'required'
-			],
+			],[
+				'field' => 'tanggal_lahir',
+				'label' => 'Tanggal Lahir',
+				'rules' => 'required'
+			]
 		];
 		$this->form_validation->set_rules($rules);
 
@@ -99,7 +103,7 @@ class siswa extends CI_Controller {
 			'siswa' => $this->siswa_model->get_by_uuid($uuid),
 			'active_nav' => 'siswa'
 		);
-		// 		echo "<pre>";
+		// echo "<pre>";
 		// print_r($data);
 		// echo "</pre>";
 
@@ -108,5 +112,49 @@ class siswa extends CI_Controller {
         $this->load->view('partials/topbar');
         $this->load->view('siswa/siswa-edit', $data);
 		$this->load->view('partials/footer');
+	}
+
+	public function username_check($username, $uuid)
+	{
+		$uuid = $this->input->post('uuid'); // atau sesuaikan dengan cara kamu ambil ID
+		$this->db->where('username', $username);
+		$this->db->where('deleted_at', NULL, FALSE);
+		$this->db->where('uuid !=', $uuid);
+		$query = $this->db->get('siswa');
+
+		if ($query->num_rows() > 0) {
+			$this->form_validation->set_message('username_check', 'Username sudah digunakan oleh pengguna lain.');
+			return false;
+		}
+		
+		return true;
+	}
+
+	public function nis_check($nis, $uuid)
+	{
+		$uuid = $this->input->post('uuid'); // atau sesuaikan dengan cara kamu ambil ID
+		$this->db->where('nis', $nis);
+		$this->db->where('deleted_at', NULL, FALSE);
+		$this->db->where('uuid !=', $uuid);
+		$query = $this->db->get('siswa');
+
+		if ($query->num_rows() > 0) {
+			$this->form_validation->set_message('nis_check', 'NIS sudah digunakan oleh pengguna lain.');
+			return false;
+		}
+		
+		return true;
+	}
+
+	public function hapus($uuid){
+		{
+			$result = $this->siswa_model->delete_by_uuid($uuid);
+			if ($result) {
+				$this->session->set_flashdata('success_msg', 'Data siswa berhasil dihapus');
+			} else {
+				$this->session->set_flashdata('error_msg', 'Gagal menghapus data siswa');
+			}
+			redirect($_SERVER['HTTP_REFERER']);
+		}
 	}
 }

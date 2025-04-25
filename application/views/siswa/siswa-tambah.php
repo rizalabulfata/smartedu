@@ -69,7 +69,7 @@
                             <?= form_error('jenisKelamin') ?>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <!-- <div class="col-sm-6">
                         <label class="form-label font-weight-bold">Kelas <span class="text-danger">*</span></label>
                         <input type="number" name="kelas" id="kelas" class="form-control" placeholder="Masukkan kelas"
                             value="<?= set_value('kelas'); ?>">
@@ -80,7 +80,7 @@
                         <div class="invalid-feedback <?= !empty(form_error('namaMapel')) ? 'd-block' : '' ; ?> ">
                             <?= form_error('namaMapel') ?>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="row">
                     <div class="col">

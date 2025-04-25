@@ -1,7 +1,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Tambah Data Siswa</h1>
+    <h1 class="h3 mb-2 text-gray-800">Edit Data Siswa</h1>
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -16,7 +16,8 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form class="user" method="post" action="<?= base_url('siswa/tambah');?>">
+            <form class="user" method="post" action="<?= base_url('siswa/edit/'.$siswa->uuid);?>">
+                <input type="hidden" name="uuid" value="<?= $siswa->uuid ?>">
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <label class="form-label font-weight-bold">NIS (Nomor Induk Siswa) <span
@@ -31,7 +32,7 @@
                         <label class="form-label font-weight-bold">Nama Lengkap<span
                                 class="text-danger">*</span></label>
                         <input type="text" name="namaLengkap" id="namaLengkap" class="form-control"
-                            placeholder="Masukkan Nama Lengkap" value="<?= $siswa->namaLengkap; ?>">
+                            placeholder="Masukkan Nama Lengkap" value="<?= $siswa->nama; ?>">
                         <div class="invalid-feedback <?= !empty(form_error('namaLengkap')) ? 'd-block' : '' ; ?> ">
                             <?= form_error('namaLengkap') ?>
                         </div>
@@ -50,7 +51,7 @@
                         <label class="form-label font-weight-bold">Tanggal Lahir <span
                                 class="text-danger">*</span></label>
                         <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control"
-                            placeholder="Masukkan tanggal lahir" value="<?= $siswa->tanggal_lahir; ?>">
+                            value="<?= $siswa->tgl_lahir; ?>">
                         <div class="invalid-feedback <?= !empty(form_error('tanggal_lahir')) ? 'd-block' : '' ; ?> ">
                             <?= form_error('tanggal_lahir') ?>
                         </div>
@@ -62,23 +63,11 @@
                                 class="text-danger">*</span></label>
                         <select class="form-control" name="jenisKelamin">
                             <option disabled selected>Pilih Jenis Kelamin</option>
-                            <option value="1" <?= $siswa->jenisKelamin==1?'selected':'';?>>Laki-Laki</option>
-                            <option value="2" <?= $siswa->jenisKelamin==2?'selected':'';?>>Perempuan</option>
+                            <option value="1" <?= $siswa->jenis_kelamin==1?'selected':'';?>>Laki-Laki</option>
+                            <option value="2" <?= $siswa->jenis_kelamin==2?'selected':'';?>>Perempuan</option>
                         </select>
                         <div class="invalid-feedback <?= !empty(form_error('jenisKelamin')) ? 'd-block' : '' ; ?> ">
                             <?= form_error('jenisKelamin') ?>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="form-label font-weight-bold">Kelas <span class="text-danger">*</span></label>
-                        <input type="number" name="kelas" id="kelas" class="form-control" placeholder="Masukkan kelas"
-                            value="<?= $siswa->kelas; ?>">
-                        <div class="invalid-feedback <?= !empty(form_error('kelas')) ? 'd-block' : '' ; ?> ">
-                            <?= form_error('kelas') ?>
-                        </div>
-                        </select>
-                        <div class="invalid-feedback <?= !empty(form_error('kelas')) ? 'd-block' : '' ; ?> ">
-                            <?= form_error('kelas') ?>
                         </div>
                     </div>
                 </div>

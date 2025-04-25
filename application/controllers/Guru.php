@@ -81,7 +81,7 @@ class Guru extends CI_Controller {
 			],[
 				'field' => 'username',
 				'label' => 'Username',
-				'rules' => 'required'
+				'rules' => 'required|regex_match[/^[a-z]/]|callback_username_check'
 			],[
 				'field' => 'namaMapel',
 				'label' => 'Nama Mata Pelajaran',
@@ -119,5 +119,34 @@ class Guru extends CI_Controller {
         $this->load->view('partials/topbar');
         $this->load->view('guru/guru-edit', $data);
 		$this->load->view('partials/footer');
+	}
+
+	public function username_check($username, $uuid)
+	{
+		$uuid = $this->input->post('uuid'); // atau sesuaikan dengan cara kamu ambil ID
+		$this->db->where('username', $username);
+		$this->db->where('deleted_at', NULL, FALSE);
+		$this->db->where('uuid !=', $uuid);
+		$query = $this->db->get('guru');
+
+		if ($query->num_rows() > 0) {
+			$this->form_validation->set_message('username_check', 'Username sudah digunakan oleh pengguna lain.');
+			return false;
+		}
+		
+		return true;
+	}
+
+
+	public function hapus($uuid){
+		{
+			$result = $this->guru_model->delete_by_uuid($uuid);
+			if ($result) {
+				$this->session->set_flashdata('success_msg', 'Data guru berhasil dihapus');
+			} else {
+				$this->session->set_flashdata('error_msg', 'Gagal menghapus data guru');
+			}
+			redirect($_SERVER['HTTP_REFERER']);
+		}
 	}
 }
