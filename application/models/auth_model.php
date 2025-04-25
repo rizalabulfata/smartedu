@@ -1,6 +1,6 @@
 <?php
 
-class Auth_model extends CI_Model
+class auth_model extends CI_Model
 {
 	private $_table_admin = 'admin';
 	private $_table_guru = 'guru';

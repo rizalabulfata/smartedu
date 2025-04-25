@@ -2,7 +2,7 @@
 date_default_timezone_set('Asia/Jakarta');
 use Ramsey\Uuid\Uuid;
 
-class Guru_model extends CI_Model {
+class guru_model extends CI_Model {
 
     public function rules()
 	{
