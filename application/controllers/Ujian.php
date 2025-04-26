@@ -25,10 +25,10 @@ class Ujian extends CI_Controller {
 		$ujian = $this->ujian_model->get_all();
 		
 		$user_login = $this->session->userdata('uuid'); 
-
+		$peserta = []; 
 		foreach ($ujian as $u) {
 			$pengerjaan = false;
-			$peserta = $this->siswa_model->get_by_ujian($u->uuid);
+			$peserta[$u->uuid] = $this->siswa_model->get_by_ujian($u->uuid);
 			foreach ($peserta as $p){
 				if ($p->ujian_uuid == $u->uuid && $p->siswa_uuid == $user_login) {
 					$pengerjaan = true;

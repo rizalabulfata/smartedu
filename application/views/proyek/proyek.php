@@ -32,6 +32,7 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="row">
+                <?php if(!empty($proyek)) : ?>
                 <?php foreach($proyek as $val) : ?>
                 <?php if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $val->pengerjaan == 1 ){?>
                 <div class="col-md-6 col-lg-4 mb-4">
@@ -57,7 +58,7 @@
                             </p>
 
                             <div class="text-muted small mb-2">
-                                <i class="fa fa-user me-1"></i> Dibuat oleh : <?= $guru->nama ?>
+                                <i class="fa fa-user me-1"></i> Dibuat oleh : <?= $val->guru ?>
                             </div>
 
                             <!-- Gunakan mt-auto agar tombol selalu di bawah -->
@@ -74,6 +75,9 @@
                 </div>
                 <?php } ?>
                 <?php endforeach; ?>
+                <?php else: ?>
+                <p class="text-center">Belum ada data proyek</p> <!-- Jika array kosong, tampilkan pesan -->
+                <?php endif; ?>
             </div>
         </div>
     </div>
