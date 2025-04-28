@@ -57,7 +57,8 @@ class ujian_model extends CI_Model {
 
 		$this->db->insert('ujian', $data);
 		if ($this->db->affected_rows() > 0) {
-			return true;
+			// return true;
+			return $data['uuid'];
 		} else {
 			return false;
 		}

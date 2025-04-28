@@ -21,7 +21,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Daftar Proyek</h1>
-        <?php if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 ){?>
+        <?php if($this->session->userdata('role') == 2 ){?>
         <a href="<?=base_url('proyek/tambah')?>" class="btn btn-md btn-primary shadow-sm"><i
                 class="fas fa-plus fa-sm text-white-50"></i> Tambah
             Data</a>

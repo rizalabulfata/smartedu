@@ -136,9 +136,13 @@ class siswa_model extends CI_Model {
 		$this->db->select("s.nama, u.uuid, u.ujian_uuid, u.siswa_uuid, u.ujian_nilai, u.modified_at");
 		$this->db->join('siswa s', 's.uuid = u.siswa_uuid','left');
 		$this->db->where('u.deleted_at', NULL, FALSE);
-		$this->db->where('ujian_uuid', $ujian_uuid);
+		$this->db->where('u.ujian_uuid', $ujian_uuid);
 		$data = $this->db->get('ujian_siswa u');
 
+	// 	echo '<pre>';
+    // print_r($data->result());
+    // echo '</pre>';
+    // exit;
 		return $data->result();
 	}
 

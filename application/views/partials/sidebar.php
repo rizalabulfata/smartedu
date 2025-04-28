@@ -55,7 +55,7 @@
             <i class="fas fa-fw fa-book"> </i>
             <span>Panduan</span></a>
     </li> -->
-    <?php if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 ){?>
+    <?php if($this->session->userdata('role') == 1){?>
     <hr class="sidebar-divider">
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">

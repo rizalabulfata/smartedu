@@ -77,7 +77,7 @@
                         <li><a href="<?= base_url('proyek')?>">Proyek</a></li>
                         <li><a href="<?= base_url('ujian')?>">Ujian</a></li>
                         <li><a href="<?= base_url('kalender')?>">Kalender</a></li>
-                        <?php if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 ){?>
+                        <?php if($this->session->userdata('role') == 1 ){?>
                         <li class="dropdown"><a href="#"><span>Master Data</span> <i
                                     class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>

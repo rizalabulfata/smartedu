@@ -29,12 +29,19 @@ class Ujian extends CI_Controller {
 		foreach ($ujian as $u) {
 			$pengerjaan = false;
 			$peserta[$u->uuid] = $this->siswa_model->get_by_ujian($u->uuid);
+			
 			foreach ($peserta as $p){
-				if ($p->ujian_uuid == $u->uuid && $p->siswa_uuid == $user_login) {
-					$pengerjaan = true;
-					break;
+				foreach($p as $q){
+				// echo"<pre>";
+				// print_r($q);
+				// echo"</pre>";
+					if ($q->ujian_uuid == $u->uuid && $q->siswa_uuid == $user_login) {
+						$pengerjaan = true;
+						break;
+					}
 				}
 			}
+			
 			$u->pengerjaan = $pengerjaan;
 		}
 		
@@ -261,6 +268,18 @@ class Ujian extends CI_Controller {
 				$this->session->set_flashdata('success_msg', 'Data siswa ujian berhasil dihapus');
 			} else {
 				$this->session->set_flashdata('error_msg', 'Gagal menghapus data siswa ujian');
+			}
+			redirect($_SERVER['HTTP_REFERER']);
+		}
+	}
+
+	public function hapus_soal($soal_uuid){
+		{
+			$result = $this->soal_model->delete_by_uuid($soal_uuid);
+			if ($result) {
+				$this->session->set_flashdata('success_msg', 'Data soal ujian berhasil dihapus');
+			} else {
+				$this->session->set_flashdata('error_msg', 'Gagal menghapus data soal ujian');
 			}
 			redirect($_SERVER['HTTP_REFERER']);
 		}

@@ -61,7 +61,7 @@
                             <td class="text-center"><?= $no++; ?></td>
                             <td><?= $s->soal; ?></td>
                             <td class="text-center">
-                                <a href="<?= base_url('guru/hapus/'.$ujian->uuid) ?>" class="btn btn-sm btn-danger"
+                                <a href="<?= base_url('ujian/hapus_soal/'.$s->uuid) ?>" class="btn btn-sm btn-danger"
                                     data-toggle="tooltip" data-placement="top" title="Hapus Data"
                                     onclick="return confirm('Apakah Anda yakin ingin menghapus soal ini?')">
                                     <i class="fas fa-trash"></i>

@@ -42,7 +42,7 @@ class soal_model extends CI_Model {
 		$data = array(
 			'deleted_at' => date("Y-m-d H:i:s")
 		);
-		$this->db->update('ujian', $data, array('uuid' => $uuid));
+		$this->db->update('ujian_soal', $data, array('uuid' => $uuid));
 		return($this->db->affected_rows() > 0) ? true :false;
 	}
 	
@@ -50,6 +50,7 @@ class soal_model extends CI_Model {
 	{
 		$this->db->select("soal, uuid");
 		$this->db->where('ujian_uuid', $ujian_uuid);
+		$this->db->where('deleted_at', NULL, FALSE);
 		$data = $this->db->get('ujian_soal');
 
 		return $data->result();

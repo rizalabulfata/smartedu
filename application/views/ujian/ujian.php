@@ -24,7 +24,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Daftar ujian</h1>
-        <?php if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 ){?>
+        <?php if($this->session->userdata('role') == 2 ){?>
         <a href="<?= base_url('ujian/tambah')?>" class="btn btn-md btn-primary shadow-sm"><i
                 class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
         <?php } ?>
@@ -60,29 +60,25 @@
                             <td><?= $val->tgl_mulai_formatted; ?> - <?= $val->tgl_selesai_formatted; ?></td>
                             <td><?= $val->guru_nama; ?></td>
                             <td>
-                                <?php if($val->pengerjaan == 1 || $this->session->userdata('role') == 1 ){?>
+                                <?php if($this->session->userdata('role') != 2 ){?>
+                                <?php if( $this->session->userdata('role') == 1 || ($val->pengerjaan == 1 && $this->session->userdata('role') == 3 )){?>
                                 <a class="btn btn-sm btn-primary" id="pengerjaan"><i class="fas fa-play text-white"></i>
                                     Mulai Mengerjakan</a>
                                 <?php } else{ ?>
                                 <span class="text-danger">Anda Bukan Peserta Ujian Ini !</span>
                                 <?php } ?>
+                                <?php } ?>
 
-                                <?php if($val->pengerjaan == 1 || $this->session->userdata('role') == 1 || $this->session->userdata('uuid') == $val->created_by ){?>
                                 <a href="<?=base_url('ujian/tambah_siswa/'.$val->uuid)?>" class="btn btn-sm btn-warning"
                                     data-toggle="tooltip" data-placement="top" title="Detail Peserta">
                                     <i class="fas fa-users"></i>
                                 </a>
-                                <?php } ?>
 
                                 <?php if($this->session->userdata('uuid') == $val->created_by || $this->session->userdata('role') == 1 ){?>
                                 <a href="<?=base_url('ujian/tambah_soal/'.$val->uuid)?>" class="btn btn-sm btn-info"
                                     data-toggle="tooltip" data-placement="top" title="Detail Soal">
                                     <i class="fas fa-plus"></i>
                                 </a>
-                                <!-- <a href="<?=base_url('ujian/edit/'.$val->uuid)?>" class="btn btn-sm btn-warning"
-                                    data-toggle="tooltip" data-placement="top" title="Edit Ujian">
-                                    <i class="fas fa-edit"></i>
-                                </a> -->
                                 <a href="<?=base_url('ujian/hapus/'.$val->uuid)?>" class="btn btn-sm btn-danger"
                                     data-toggle="tooltip" data-placement="top" title="Hapus Ujian"
                                     onclick="return confirm('Apakah Anda yakin ingin menghapus ujian <?= $val->nama; ?>?')">
