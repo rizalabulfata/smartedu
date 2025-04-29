@@ -27,6 +27,7 @@ class auth_model extends CI_Model
 	{
 		//cek admin
 		$this->db->where('username', $username);
+		$this->db->where('deleted_at', NULL, FALSE);
         $query = $this->db->get($this->_table_admin);
         if ($query->num_rows() > 0) {
             $user = $query->row();
@@ -34,6 +35,7 @@ class auth_model extends CI_Model
         } else {
 			//cek guru
 			$this->db->where('username', $username);
+			$this->db->where('deleted_at', NULL, FALSE);
 			$query = $this->db->get($this->_table_guru);
 			
 			if ($query->num_rows() > 0) {
@@ -42,6 +44,7 @@ class auth_model extends CI_Model
 			} else {
 				//cek siswa
 				$this->db->where('username', $username);
+				$this->db->where('deleted_at', NULL, FALSE);
 				$query = $this->db->get($this->_table_siswa);
 				
 				if ($query->num_rows() > 0) {

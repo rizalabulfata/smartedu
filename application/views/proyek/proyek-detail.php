@@ -51,6 +51,7 @@
                 </div>
             </div>
             <hr>
+            <?php if($this->session->userdata('role') != 2){?>
             <h5 class="font-weight-bold">Pengumpulan Proyek</h5>
             <form method="post" enctype="multipart/form-data"
                 action="<?= base_url('proyek/kumpulkan/'.$proyek->uuid) ?>">
@@ -64,7 +65,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="font-weight-bold">Atau Upload File</label>
+                    <label class="font-weight-bold">Upload File</label>
                     <input type="file" name="jawaban_file" id="jawaban_file" class="form-control-file">
                     <small class="text-muted">Format : PDF, DOCX, JPG, PNG, Video (max 50 MB)</small>
                     <br>
@@ -78,6 +79,7 @@
                     <i class="fa fa-times"></i> Hapus
                 </a>
             </form>
+            <?php } ?>
             <!-- <div class="alert alert-info text-center">
                 <strong>Jawaban sudah dikumpulkan.</strong>
                 <br>
@@ -129,17 +131,17 @@
                             <td class="text-center"><?= $j->nilai;?></td>
 
                             <?php if($this->session->userdata('role') == 1 || $this->session->userdata('uuid') == $proyek->created_by ){?>
-                            <?php if (!empty($j->jawaban_text)){?>
-                            <td><?=$j->jawaban_text?></td>
-                            <?php } else{ ?>
-                            <td class="text-center">
+
+                            <td class="text-justify">
+                                <div style="max-height: 100px; overflow-y: auto;">
+                                    <?=$j->jawaban_text?>
+                                </div>
+                                <hr>
                                 <a href="<?= base_url('uploads/jawaban/'.$j->jawaban_file)?>" target="_blank"
                                     class="btn btn-sm btn-primary">Klik untuk Melihat</a>
                                 <br>
-                                <?= $j->keterangan_file;?>
+                                <small><i>Keterangan File : <?= $j->keterangan_file; ?></i></small>
                             </td>
-                            <?php  }
-                            ?>
 
                             <td>
                                 <a class="btn btn-sm btn-success btn-beri-nilai" data-toggle="modal"
@@ -265,17 +267,17 @@ $(document).ready(function() {
         $("#jawaban_text, #jawaban_file, #keterangan_file").prop('disabled', false);
     });
 
-    $("#jawaban_text").on('input', function() {
-        if ($(this).val().trim().length > 0) {
-            $("#jawaban_file, #keterangan_file").prop('disabled', true);
-        }
-    });
+    // $("#jawaban_text").on('input', function() {
+    //     if ($(this).val().trim().length > 0) {
+    //         $("#jawaban_file, #keterangan_file").prop('disabled', true);
+    //     }
+    // });
 
-    $("#jawaban_file, #keterangan_file").on('change', function() {
-        if ($(this).val()) {
-            $("#jawaban_text").prop('disabled', true);
-        }
-    });
+    // $("#jawaban_file, #keterangan_file").on('change', function() {
+    //     if ($(this).val()) {
+    //         $("#jawaban_text").prop('disabled', true);
+    //     }
+    // });
 
     $('.btn-beri-nilai').on('click', function() {
         var uuid = $(this).data('uuid'); // Ambil UUID dari tombol yang ditekan

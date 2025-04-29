@@ -1,83 +1,95 @@
+<style>
+.pagination li {
+    display: inline-block;
+    margin: 0 2px;
+}
+
+.pagination li a {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.pagination li.active a {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination li.disabled a {
+    color: #ccc;
+    pointer-events: none;
+}
+</style>
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
-    <?php if ($this->session->userdata('success_msg')): ?>
-    <div class="alert alert-success">
-        <?= $this->session->userdata('success_msg'); ?>
-        <?php $this->session->unset_userdata('success_msg'); ?>
-        <!-- Hapus setelah ditampilkan -->
-    </div>
-    <?php endif; ?>
-
-    <?php if ($this->session->userdata('error_msg')): ?>
-    <div class="alert alert-danger">
-        <?= $this->session->userdata('error_msg'); ?>
-        <?php $this->session->unset_userdata('error_msg'); ?>
-        <!-- Hapus setelah ditampilkan -->
-    </div>
-    <?php endif; ?>
-    <br>
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800"></h1>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Daftar Materi</h1>
-
-        <?php if($this->session->userdata('role') == 2 ){?>
-        <a href="<?=base_url('materi/tambah')?>" class="btn btn-md btn-primary shadow-sm"><i
-                class="fas fa-plus fa-sm text-white-50"></i> Tambah
-            Data</a>
-        <?php } ?>
+        <h1 class="h3 mb-2 text-gray-800">Daftar Mata Pelajaran</h1>
     </div>
 
     <!-- Card Simulasi -->
     <div class="card shadow mb-4">
         <div class="card-body">
-            <div class="row">
-                <?php if(!empty($materi)) : ?>
-                <?php foreach($materi as $val) :  ?>
-                <div class="col-md-4">
-                    <div class="card mb-3 shadow-sm">
-                        <div class="card-header">
-                            <span>Mata Pelajaran :</span>
-                            <span class="text-primary font-weight-bold"><?= $val->mapel ?></span>
-                        </div>
-                        <?php if (!empty($val->thumbnail)) : ?>
-                        <img src="<?= base_url('uploads/thumbnail/'.$val->thumbnail) ?>" class="card-img-top"
-                            height="200px;">
-                        <?php else : ?>
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
-                            style="height: 200px;">
-                            <span class="text-muted">No Image Available</span>
-                        </div>
-                        <?php endif; ?>
 
-                        <div class="card-body">
-                            <!-- <p class="text-muted">06 November 2024</p> -->
-                            <h5 class="card-title"><?=$val->judul?></h5>
-                            <p><i class="fas fa-user"></i> <?=$val->nama?></p>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <a href="<?= base_url('uploads/materi/' . $val->berkas) ?>" target="_blank"
-                                    class="btn btn-primary"><i class="fas fa-eye"></i>
-                                    Klik untuk Melihat
-                                </a>
-                                <a href="<?= base_url('materi/hapus/' . $val->uuid) ?>" class="btn btn-danger"
-                                    onclick="return confirm('Apakah Anda yakin ingin menghapus materi <?= $val->judul; ?>?')">
-                                    <i class="fas fa-trash"></i> Hapus
+            <div id="mapelList">
+                <input class="search form-control mb-3" placeholder="Cari mata pelajaran..." />
+                <div class="row list">
+                    <?php if (!empty($mapel)) : ?>
+                    <?php foreach ($mapel as $val) : ?>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100 border-left-primary shadow-sm">
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="mr-3">
+                                        <i class="fas fa-book fa-2x text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="card-title name"><?= $val->nama ?></h6>
+                                    </div>
+                                </div>
+                                <a href="<?= base_url('materi/detail/' . $val->uuid) ?>"
+                                    class="btn btn-sm btn-outline-primary mt-auto">
+                                    Lihat Materi
                                 </a>
                             </div>
-
                         </div>
                     </div>
+                    <?php endforeach; ?>
+                    <?php else : ?>
+                    <div class="col-12">
+                        <p class="text-center text-muted">Belum ada data mata pelajaran</p>
+                    </div>
+                    <?php endif; ?>
                 </div>
-                <?php endforeach; ?>
-                <?php else: ?>
-                <p class="text-center">Belum ada data materi</p> <!-- Jika array kosong, tampilkan pesan -->
-                <?php endif; ?>
+
+                <!-- Pagination -->
+                <div class="d-flex justify-content-center mt-3">
+                    <ul class="pagination justify-content-center mt-3"></ul>
+                </div>
             </div>
         </div>
     </div>
+
+
+
 
 </div>
 <!-- /.container-fluid -->
 
 </div>
+
+<script>
+var options = {
+    valueNames: ['name'], // target class untuk search
+    page: 6, // jumlah item per halaman
+    pagination: true
+};
+
+var mapelList = new List('mapelList', options);
+</script>

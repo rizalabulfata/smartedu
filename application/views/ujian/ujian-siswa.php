@@ -88,16 +88,21 @@
                             <td align="center"><?= $no ; ?></td>
                             <td><?= $val->nama; ?></td>
 
-                            <?php if ($val->modified_at <= $ujian->tgl_selesai) { ?>
-                            <td>
-                                <?= $val->modified_at; ?>
-                                <?php } else { ?>
+                            <?php if ($val->pengumpulan != NULL){ ?>
+                            <?php if ($val->pengumpulan <= $ujian->tgl_selesai) { ?>
+                            <?= $val->pengumpulan; ?>
+                            <?php } else { ?>
                             <td class="bg-danger text-white">
                                 <span>TERLAMBAT!</span>
                                 <br>
-                                <?= $val->modified_at; ?>
-                                <?php } ?>
+                                <?= $val->pengumpulan; ?>
                             </td>
+                            <?php } ?>
+                            <?php } else { ?>
+                            <td class="text-muted small text-center">
+                                <span>Siswa belum mengumpulkan</span>
+                            </td>
+                            <?php } ?>
 
                             <td class="text-center"><?= $val->ujian_nilai; ?></td>
 

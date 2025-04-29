@@ -9,6 +9,7 @@ class Materi extends CI_Controller {
 
 		$this->load->model('materi_model');
 		$this->load->model('mapel_model');
+		$this->load->model('guru_model');
 		$this->load->library('form_validation');
 		$this->load->model('auth_model');
 		if(!$this->auth_model->current_user()){
@@ -18,7 +19,29 @@ class Materi extends CI_Controller {
 
 	public function index()
 	{
-		$materi = $this->materi_model->get_all();
+		$mapel = $this->mapel_model->get_all();
+
+		$data = array(
+			'mapel' => $mapel,
+			'active_nav' => 'materi'
+		);
+		// echo "<pre>";
+		// print_r($data);
+		// echo "</pre>";
+		
+        $this->load->view('partials/header');
+		$this->load->view('partials/sidebar');
+        $this->load->view('partials/topbar');
+        $this->load->view('materi/materi', $data);
+		$this->load->view('partials/footer');
+	}
+    
+	public function detail($mapel_uuid)
+	{
+		$materi = $this->materi_model->get_by_mapel_uuid($mapel_uuid);
+		$mapel = $this->mapel_model->get_by_uuid($mapel_uuid);
+		$guru_uuid = $this->session->userdata('uuid');
+		$pengampu = $this->guru_model->get_mapel_pengampu($mapel_uuid, $guru_uuid);
 
 		if (!empty($materi)) { // Pastikan ada data dalam materi
 			foreach ($materi as $m) {
@@ -31,12 +54,13 @@ class Materi extends CI_Controller {
 			}
 		}
 
-
 		$data = array(
 			'materi' => $materi,
+			'mapel' => $mapel,
+			'pengampu' => $pengampu,
 			'active_nav' => 'materi'
 		);
-		
+
 		// echo "<pre>";
 		// print_r($data);
 		// echo "</pre>";
@@ -44,11 +68,11 @@ class Materi extends CI_Controller {
         $this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
         $this->load->view('partials/topbar');
-        $this->load->view('materi/materi', $data);
+        $this->load->view('materi/materi-list', $data);
 		$this->load->view('partials/footer');
 	}
-    
-    public function tambah()
+
+    public function tambah($mapel_uuid)
 	{
         $rules = $this->materi_model->rules();
 		$this->form_validation->set_rules($rules);
@@ -76,7 +100,7 @@ class Materi extends CI_Controller {
 					$thumbnail = $this->upload->data('file_name');
 				} else {
 					$this->session->set_flashdata('error_msg', 'Gagal mengunggah thumbnail: ' . $this->upload->display_errors());
-					redirect('materi/tambah');
+					redirect('materi/tambah/'.$mapel_uuid);
 				}
 			}
 
@@ -93,7 +117,7 @@ class Materi extends CI_Controller {
 					$berkas = $this->upload->data('file_name');
 				} else {
 					$this->session->set_flashdata('error_msg', 'Gagal mengunggah file materi: ' . $this->upload->display_errors());
-					redirect('materi/tambah');
+					redirect('materi/tambah/'.$mapel_uuid);
 				}
 				
 			}
@@ -104,18 +128,24 @@ class Materi extends CI_Controller {
 			} else {
 				$this->session->set_flashdata('error_msg', 'Data Materi gagal disimpan');
 			}
-			redirect('materi');
+			redirect('materi/detail/'.$mapel_uuid);	
 		}
+		
+		$guru_uuid = $this->session->userdata('uuid');
+		$guru = $this->guru_model->get_by_uuid($guru_uuid);
 
-		$mapel = $this->mapel_model->get_all();
 		$data = array(
-			'mapel' => $mapel,
+			'guru' => $guru,
 			'active_nav' => 'materi'
 		);
+
+		// echo "<pre>";
+		// print_r($data);
+		// echo "</pre>";
         
-        $this->load->view('partials/header',$data);
-		$this->load->view('partials/sidebar');
-        $this->load->view('partials/topbar',$data);
+        $this->load->view('partials/header');
+		$this->load->view('partials/sidebar',$data);
+        $this->load->view('partials/topbar');
         $this->load->view('materi/materi-tambah',$data);
 		$this->load->view('partials/footer');
 	}

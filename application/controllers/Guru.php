@@ -97,10 +97,10 @@ class Guru extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			$update = $this->guru_model->update($uuid);
 			if ($update) {
-				$this->session->set_flashdata('success_msg', 'Data Mata Pelajaran berhasil di Update');
+				$this->session->set_flashdata('success_msg', 'Data Guru berhasil di Update');
 				redirect('guru');
 			}else {
-				$this->session->set_flashdata('error_msg', 'Data Mata Pelajaran gagal di Update');
+				$this->session->set_flashdata('error_msg', 'Data Guru gagal di Update');
 				redirect('guru');
 			}
 		}

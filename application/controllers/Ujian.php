@@ -28,20 +28,24 @@ class Ujian extends CI_Controller {
 		$peserta = []; 
 		foreach ($ujian as $u) {
 			$pengerjaan = false;
+			$pengumpulan = false;
 			$peserta[$u->uuid] = $this->siswa_model->get_by_ujian($u->uuid);
 			
 			foreach ($peserta as $p){
 				foreach($p as $q){
-				// echo"<pre>";
-				// print_r($q);
-				// echo"</pre>";
+					// echo"<pre>";
+					// print_r($q);
+					// echo"</pre>";
 					if ($q->ujian_uuid == $u->uuid && $q->siswa_uuid == $user_login) {
 						$pengerjaan = true;
+						break;
+					} else if ($this->ujian_model->get_pengumpulan_siswa($q->ujian_uuid, $user_login)) {
+						$pengumpulan = true;
 						break;
 					}
 				}
 			}
-			
+			$u->pengumpulan = $pengumpulan;
 			$u->pengerjaan = $pengerjaan;
 		}
 		
@@ -51,9 +55,9 @@ class Ujian extends CI_Controller {
 			'peserta' => $peserta,
 			'active_nav' => 'ujian'
 		);
-		// echo"<pre>";
-		// print_r($data);
-		// echo"</pre>";
+		echo"<pre>";
+		print_r($ujian);
+		echo"</pre>";
 		
         $this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
@@ -160,6 +164,13 @@ class Ujian extends CI_Controller {
 
 		$ujian = $this->ujian_model->get_by_uuid($ujian_uuid);
 		$peserta = $this->siswa_model->get_by_ujian($ujian_uuid);
+		foreach($peserta as $p){
+			$pengumpulan = $this->ujian_model->get_pengumpulan_siswa($ujian_uuid, $p->siswa_uuid);
+			$p->pengumpulan = $pengumpulan ? $pengumpulan->modified_at : null;
+		}
+		// echo"<pre>";
+		// print_r($peserta);
+		// echo"</pre>";
 		
 		$data = array(
 			'ujian' => $ujian,
@@ -168,9 +179,6 @@ class Ujian extends CI_Controller {
 			'active_nav' => 'ujian'
 		);
 
-		// echo"<pre>";
-		// print_r($data);
-		// echo"</pre>";
 		
         $this->load->view('partials/header');
 		$this->load->view('partials/sidebar');
@@ -254,9 +262,9 @@ class Ujian extends CI_Controller {
 			'soal' => $this->soal_model->get_by_ujian_uuid($ujian_uuid)
 		);
 
-		// echo"<pre>";
-		// print_r($data);
-		// echo"</pre>";
+		echo"<pre>";
+		print_r($data);
+		echo"</pre>";
 		
         $this->load->view('ujian/ujian-pengerjaan', $data);
 	}

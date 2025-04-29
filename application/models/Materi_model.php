@@ -35,10 +35,10 @@ class materi_model extends CI_Model {
 
 		$data = array(
 			'uuid'      => $uuid,
-			'mapel_uuid'     => $mapel_uuid,
+			'mapel_uuid'=> $mapel_uuid,
 			'judul'     => $judul,
 			'thumbnail' => $thumbnail,
-			'berkas'      => $berkas,
+			'berkas'    => $berkas,
 			'created_by' => $this->session->userdata('uuid')
 		);
 		$this->db->insert('materi', $data);
@@ -49,6 +49,18 @@ class materi_model extends CI_Model {
 	{
 		$this->db->select('m.*, g.nama, m.uuid AS materi_uuid, m.created_by AS materi_created_by');
 		$this->db->join('guru g', 'm.created_by = g.uuid', 'left');
+		$this->db->where('m.deleted_at', NULL, FALSE);
+		$this->db->order_by('m.modified_at', 'DESC');
+		$data = $this->db->get('materi m')->result();
+
+		return $data;
+	} 
+
+	public function get_by_mapel_uuid($mapel_uuid)
+	{
+		$this->db->select('m.*, g.nama, m.uuid AS materi_uuid, m.created_by AS materi_created_by');
+		$this->db->join('guru g', 'm.created_by = g.uuid', 'left');
+		$this->db->where('m.mapel_uuid', $mapel_uuid);
 		$this->db->where('m.deleted_at', NULL, FALSE);
 		$this->db->order_by('m.modified_at', 'DESC');
 		$data = $this->db->get('materi m')->result();

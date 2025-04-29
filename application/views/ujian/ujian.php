@@ -61,20 +61,27 @@
                             <td><?= $val->guru_nama; ?></td>
                             <td>
                                 <?php if($this->session->userdata('role') != 2 ){?>
-                                <?php if( $this->session->userdata('role') == 1 || ($val->pengerjaan == 1 && $this->session->userdata('role') == 3 )){?>
-                                <a class="btn btn-sm btn-primary" id="pengerjaan"><i class="fas fa-play text-white"></i>
+                                <?php if($val->pengerjaan == 1 && $val->pengumpulan == 1) { ?>
+                                <a class="btn btn-sm btn-primary btn-pengerjaan" data-uuid="<?= $val->uuid ?>"><i
+                                        class="fas fa-play text-white"></i>
                                     Mulai Mengerjakan</a>
+                                <?php } else if($val->pengumpulan != 1) { ?>
+                                <span class="text-muted small d-block text-center">
+                                    Anda sudah mengerjakan ujian ini.
+                                </span>
                                 <?php } else{ ?>
-                                <span class="text-danger">Anda Bukan Peserta Ujian Ini !</span>
+                                <span class="text-danger small d-block text-center">
+                                    Anda bukan peserta ujian ini.
+                                </span>
                                 <?php } ?>
                                 <?php } ?>
+
+                                <?php if($this->session->userdata('uuid') == $val->created_by || $this->session->userdata('role') == 1 ){?>
 
                                 <a href="<?=base_url('ujian/tambah_siswa/'.$val->uuid)?>" class="btn btn-sm btn-warning"
                                     data-toggle="tooltip" data-placement="top" title="Detail Peserta">
                                     <i class="fas fa-users"></i>
                                 </a>
-
-                                <?php if($this->session->userdata('uuid') == $val->created_by || $this->session->userdata('role') == 1 ){?>
                                 <a href="<?=base_url('ujian/tambah_soal/'.$val->uuid)?>" class="btn btn-sm btn-info"
                                     data-toggle="tooltip" data-placement="top" title="Detail Soal">
                                     <i class="fas fa-plus"></i>
@@ -84,6 +91,13 @@
                                     onclick="return confirm('Apakah Anda yakin ingin menghapus ujian <?= $val->nama; ?>?')">
                                     <i class="fas fa-trash"></i>
                                 </a>
+
+                                <?php } else if ($this->session->userdata('role') != 3) { ?>
+                                <span class="text-danger small d-block text-center">
+                                    Tidak ada akses.<br>
+                                    (bukan pembuat ujian)
+                                </span>
+
                                 <?php } ?>
                             </td>
                         </tr>
@@ -106,7 +120,9 @@
 </div>
 <script>
 $(document).ready(function() {
-    $('#pengerjaan').on("click", function() {
+    const base_url = "<?= base_url(); ?>";
+    $('.btn-pengerjaan').on("click", function() {
+        const uuid = $(this).data('uuid');
         Swal.fire({
             title: "Konfirmasi Memulai Ujian",
             text: "Anda akan memasuki sesi ujian. Harap diperhatikan bahwa berpindah tab selama ujian berlangsung tidak diperkenankan. Jika dilakukan, ujian akan otomatis berakhir.",
@@ -118,7 +134,7 @@ $(document).ready(function() {
             cancelButtonText: "Batal"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "<?= base_url('ujian/pengerjaan/'.$val->uuid)?>";
+                window.location.href = base_url + "ujian/pengerjaan/" + uuid;
             }
         });
     });

@@ -96,5 +96,17 @@ class guru_model extends CI_Model {
 		return $data;
 	}
 
+	public function get_mapel_pengampu($mapel_uuid, $guru_uuid)
+	{
+		$this->db->select('*');
+		$this->db->where('mapel_uuid', $mapel_uuid);
+		$this->db->where('uuid', $guru_uuid);
+		$this->db->where('deleted_at', NULL, FALSE);
+		$data = $this->db->get('guru')->row();
+
+		return $data ? true : false;
+	}
+	
+
 }
 ?>

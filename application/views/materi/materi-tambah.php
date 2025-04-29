@@ -22,7 +22,9 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form class="user" method="post" enctype="multipart/form-data" action="<?= base_url('materi/tambah');?>">
+            <form class="user" method="post" enctype="multipart/form-data"
+                action="<?= base_url('materi/tambah/'.$guru->mapel_uuid);?>">
+                <input type="hidden" name="namaMapel" value="<?= $guru->mapel_uuid; ?>">
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <label class="form-label font-weight-bold">Thumbnail</label>
@@ -31,27 +33,6 @@
                         <small>format file : JPG, JPEG, PNG</small>
                         <div class="invalid-feedback <?= !empty(form_error('thumbnail')) ? 'd-block' : '' ; ?> ">
                             <?= form_error('thumbnail') ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                        <label class="form-label font-weight-bold">Mata Pelajaran<span
-                                class="text-danger">*</span></label>
-                        <select name="namaMapel" class="form-control">
-                            <option disabled selected>Pilih Mata Pelajaran</option>
-                            <?php 
-                            foreach($mapel as $val){
-                            ?>
-                            <option value="<?= $val->uuid; ?>" <?= set_select('namaMapel', $val->uuid) ;?>>
-                                <?= $val->nama; ?>
-                            </option>
-                            <?php 
-                            }
-                            ?>
-                        </select>
-                        <div class="invalid-feedback <?= !empty(form_error('namaMapel')) ? 'd-block' : '' ; ?> ">
-                            <?= form_error('namaMapel') ?>
                         </div>
                     </div>
                 </div>
