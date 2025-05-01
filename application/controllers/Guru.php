@@ -124,7 +124,7 @@ class Guru extends CI_Controller {
 		// echo "</pre>";
 
 		$this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar',$data);
         $this->load->view('partials/topbar');
         $this->load->view('guru/guru-edit', $data);
 		$this->load->view('partials/footer');
