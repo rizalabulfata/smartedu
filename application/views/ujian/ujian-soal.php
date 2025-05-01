@@ -100,6 +100,44 @@
                                     onclick="return confirm('Apakah Anda yakin ingin menghapus soal ini?')">
                                     <i class="fas fa-trash"></i>
                                 </a>
+
+                                <button class="btn btn-sm btn-warning" data-toggle="modal"
+                                    data-target="#modalEditSoal<?= $s->uuid ?>"> <i class="fas fa-edit"></i></button>
+
+                                <!-- Modal Tambah Siswa -->
+                                <div class="modal fade" id="modalEditSoal<?= $s->uuid ?>" tabindex="-1" role="dialog"
+                                    aria-labelledby="modalEditSoal<?= $s->uuid ?>" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <form action="<?= base_url('ujian/edit_soal/'.$s->uuid) ?>" method="POST">
+                                            <input type="hidden" name="ujian_uuid" value="<?= $ujian->uuid ?>">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editModalLabel<?= $s->uuid ?>">Edit Soal
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal">
+                                                        <span>&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label class="form-label font-weight-bold">Soal<span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" name="soal" id="soal" class="form-control"
+                                                            placeholder="Masukkan Soal" value="<?= $s->soal; ?>">
+                                                        <div
+                                                            class="invalid-feedback <?= !empty(form_error('soal')) ? 'd-block' : '' ; ?> ">
+                                                            <?= form_error('soal') ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Batal</button>
+                                                </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -112,3 +150,7 @@
         </div>
 
     </div>
+
+
+
+</div>

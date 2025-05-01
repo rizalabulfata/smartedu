@@ -268,9 +268,9 @@ class Ujian extends CI_Controller {
 			'soal' => $this->soal_model->get_by_ujian_uuid($ujian_uuid)
 		);
 
-		echo"<pre>";
-		print_r($data);
-		echo"</pre>";
+		// echo"<pre>";
+		// print_r($data);
+		// echo"</pre>";
 		
         $this->load->view('ujian/ujian-pengerjaan', $data);
 	}
@@ -296,6 +296,30 @@ class Ujian extends CI_Controller {
 				$this->session->set_flashdata('error_msg', 'Gagal menghapus data soal ujian');
 			}
 			redirect($_SERVER['HTTP_REFERER']);
+		}
+	}
+
+	public function edit_soal($soal_uuid){
+		
+		$ujian_uuid = $this->input->post('ujian_uuid');
+		$rules = [
+			[
+				'field' => 'soal',
+				'label' => 'Soal',
+				'rules' => 'required'
+			]
+		];
+		$this->form_validation->set_rules($rules);
+
+		if ($this->form_validation->run() == TRUE) {
+			$update = $this->soal_model->update($soal_uuid);
+			if ($update) {
+				$this->session->set_flashdata('success_msg', 'Data soal berhasil di Update');
+				redirect('ujian/tambah_soal/'.$ujian_uuid);
+			}else {
+				$this->session->set_flashdata('error_msg', 'Data soal gagal di Update');
+				redirect('ujian/tambah_soal/'.$ujian_uuid);
+			}
 		}
 	}
 

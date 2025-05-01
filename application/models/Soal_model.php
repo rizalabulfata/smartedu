@@ -56,5 +56,17 @@ class soal_model extends CI_Model {
 		return $data->result();
 	}
 
+	public function update($uuid)
+	{
+		$soal = $this->input->post('soal');
+		$data = array(
+			'soal' => $soal,
+			'modified_at' => date("Y-m-d H:i:s")
+		);
+		$this->db->update('ujian_soal', $data, array('uuid' => $uuid));
+		return($this->db->affected_rows() > 0) ? true :false;
+	}
+
+
 }
 ?>
