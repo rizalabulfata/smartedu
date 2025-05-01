@@ -54,7 +54,17 @@
                             <td align="center"><?= $no ; ?></td>
                             <td><?= $val->nama; ?></td>
                             <td><?= $val->username; ?></td>
-                            <td><?= $val->mapel_nama; ?></td>
+                            <td>
+                                <?php if (!empty($val->mapel_nama)) : ?>
+                                <?php foreach ($val->mapel_nama as $i => $nama_mapel) : ?>
+                                <?= $nama_mapel ?>
+                                <?php if ($i !== array_key_last($val->mapel_nama)) : ?>
+                                <hr>
+                                <?php endif; ?>
+                                <?php endforeach; ?>
+                                <?php endif; ?>
+                            </td>
+
                             <td>
                                 <a href="<?=base_url('guru/edit/'.$val->uuid)?>" class="btn btn-sm btn-warning"
                                     data-toggle="tooltip" data-placement="top" title="Edit Data">

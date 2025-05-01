@@ -30,7 +30,7 @@ class Materi extends CI_Controller {
 		// echo "</pre>";
 		
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar', $data);
         $this->load->view('partials/topbar');
         $this->load->view('materi/materi', $data);
 		$this->load->view('partials/footer');
@@ -61,12 +61,12 @@ class Materi extends CI_Controller {
 			'active_nav' => 'materi'
 		);
 
-		// echo "<pre>";
-		// print_r($data);
-		// echo "</pre>";
+		echo "<pre>";
+		print_r($data);
+		echo "</pre>";
 		
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar', $data);
         $this->load->view('partials/topbar');
         $this->load->view('materi/materi-list', $data);
 		$this->load->view('partials/footer');
@@ -110,6 +110,8 @@ class Materi extends CI_Controller {
 				'max_size'      => 50000, 
 				'encrypt_name'  => TRUE
 			);
+			// echo mime_content_type($_FILES['berkas']['tmp_name']);
+			// exit;
 
 			$this->upload->initialize($config_berkas);
 			if (!empty($_FILES['berkas']['name'])) {
@@ -144,7 +146,7 @@ class Materi extends CI_Controller {
 		// echo "</pre>";
         
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar',$data);
+		$this->load->view('partials/sidebar', $data,$data);
         $this->load->view('partials/topbar');
         $this->load->view('materi/materi-tambah',$data);
 		$this->load->view('partials/footer');
@@ -177,7 +179,7 @@ class Materi extends CI_Controller {
 		);
 
 		$this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar', $data);
         $this->load->view('partials/topbar');
         $this->load->view('materi/materi-edit', $data);
 		$this->load->view('partials/footer');

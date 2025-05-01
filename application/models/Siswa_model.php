@@ -158,14 +158,40 @@ class siswa_model extends CI_Model {
 		return $data->result();
 	}
 
-	public function delete_siswa_ujian_by_uuid($relasi_uuid)
+	// public function delete_siswa_ujian_by_uuid($relasi_uuid)
+	// {
+	// 	$data = array(
+	// 		'deleted_at' => date("Y-m-d H:i:s")
+	// 	);
+	// 	$this->db->update('ujian_siswa', $data, array('uuid' => $relasi_uuid));
+	// 	return($this->db->affected_rows() > 0) ? true :false;
+	// }
+
+	public function delete_siswa_ujian_and_ujian_jawaban_by_uuid($relasi_uuid)
 	{
-		$data = array(
-			'deleted_at' => date("Y-m-d H:i:s")
-		);
-		$this->db->update('ujian_siswa', $data, array('uuid' => $relasi_uuid));
-		return($this->db->affected_rows() > 0) ? true :false;
+		// Step 1: Ambil data ujian_uuid dan siswa_uuid
+		$this->db->where('uuid', $relasi_uuid);
+		$this->db->where('deleted_at', NULL);
+		$row = $this->db->get('ujian_siswa')->row();
+
+		if (!$row) return false;
+
+		$ujian_uuid = $row->ujian_uuid;
+		$siswa_uuid = $row->siswa_uuid;
+		$now = date("Y-m-d H:i:s");
+
+		// Step 2: Soft delete ujian_siswa
+		$this->db->where('uuid', $relasi_uuid);
+		$this->db->update('ujian_siswa', ['deleted_at' => $now]);
+
+		// Step 3: Soft delete ujian_jawaban yang sesuai
+		$this->db->where('ujian_uuid', $ujian_uuid);
+		$this->db->where('created_by', $siswa_uuid);
+		$this->db->update('ujian_jawaban', ['deleted_at' => $now]);
+
+		return true;
 	}
+
 	
 	public function delete_by_uuid($uuid)
 	{

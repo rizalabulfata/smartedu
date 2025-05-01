@@ -19,10 +19,11 @@ class guru_model extends CI_Model {
 				
 			],
 			[
-				'field' => 'namaMapel',
+				'field' => 'namaMapel[]',
 				'label' => 'Mata Pelajaran',
 				'rules' => 'required'
-			],[
+			],
+			[
 				'field' => 'jenisKelamin',
 				'label' => 'Jenis Kelamin',
 				'rules' => 'required'
@@ -36,14 +37,16 @@ class guru_model extends CI_Model {
         $namaLengkap = $this->input->post('namaLengkap');
         $username = $this->input->post('username');
         $password = 'edu12345';
-		$mapel_uuid = $this->input->post('namaMapel');
+		// $mapel_uuid = $this->input->post('namaMapel');
+		$namaMapel = $this->input->post('namaMapel'); // array dari select multiple
+		$mapel_json = json_encode($namaMapel);
         $jenisKelamin = $this->input->post('jenisKelamin');
 
 		$data = array(
 			'uuid' => $uuid,
 			'nama' => $namaLengkap,
             'username' => $username,
-            'mapel_uuid' => $mapel_uuid,
+            'mapel_uuid' => $mapel_json,
             'password' =>  password_hash($password, PASSWORD_DEFAULT),
             'jenis_kelamin' => $jenisKelamin
 		);
@@ -60,12 +63,14 @@ class guru_model extends CI_Model {
 	{
 		$namaLengkap = $this->input->post('namaLengkap');
 		$username = $this->input->post('username');
-		$mapel_uuid = $this->input->post('namaMapel');
+		// $mapel_uuid = $this->input->post('namaMapel');
+		$namaMapel = $this->input->post('namaMapel'); // array dari select multiple
+		$mapel_json = json_encode($namaMapel);
 		$jenisKelamin = $this->input->post('jenisKelamin');
 		$data = array(
 			'nama' => $namaLengkap,
             'username' => $username,
-            'mapel_uuid' => $mapel_uuid,
+            'mapel_uuid' => $mapel_json,
             'jenis_kelamin' => $jenisKelamin,
 			'modified_at' => date("Y-m-d H:i:s")
 		);
@@ -76,7 +81,7 @@ class guru_model extends CI_Model {
 	public function get_all()
 	{
 		$this->db->where('deleted_at', NULL, FALSE);
-		$this->db->order_by('modified_at', 'DESC');
+		$this->db->order_by('nama', 'ASC');
 		$data = $this->db->get('guru')->result();
 
 		return $data;
@@ -99,14 +104,14 @@ class guru_model extends CI_Model {
 	public function get_mapel_pengampu($mapel_uuid, $guru_uuid)
 	{
 		$this->db->select('*');
-		$this->db->where('mapel_uuid', $mapel_uuid);
+		// $this->db->where('mapel_uuid', $mapel_uuid);		
+		$this->db->where("JSON_CONTAINS(mapel_uuid, '\"$mapel_uuid\"')", null, false);
 		$this->db->where('uuid', $guru_uuid);
 		$this->db->where('deleted_at', NULL, FALSE);
 		$data = $this->db->get('guru')->row();
 
 		return $data ? true : false;
 	}
-	
 
 }
 ?>

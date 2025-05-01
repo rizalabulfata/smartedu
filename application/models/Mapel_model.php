@@ -73,5 +73,14 @@ class mapel_model extends CI_Model {
 		$this->db->update('mapel', $data, array('uuid' => $uuid));
 		return($this->db->affected_rows() > 0) ? true :false;
 	}
+
+	
+	public function get_many_mapel_by_uuid($uuids = [])
+	{
+		if (empty($uuids)) return [];
+
+		$this->db->where_in('uuid', $uuids);
+		return $this->db->get('mapel')->result(); // kembalikan array objek mapel
+	}
 }
 ?>

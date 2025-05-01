@@ -30,7 +30,7 @@
                         <label class="form-label font-weight-bold">Thumbnail</label>
                         <input type="file" name="thumbnail" id="thumbnail" class="form-control"
                             placeholder="Masukkan Thumbnail" value="<?= set_value('thumbnail'); ?>">
-                        <small>format file : JPG, JPEG, PNG</small>
+                        <small>format file : JPG, JPEG, PNG. Maximal 2Mb</small>
                         <div class="invalid-feedback <?= !empty(form_error('thumbnail')) ? 'd-block' : '' ; ?> ">
                             <?= form_error('thumbnail') ?>
                         </div>
@@ -52,7 +52,7 @@
                                 class="text-danger">*</span></label>
                         <input type="file" name="berkas" id="berkas" class="form-control"
                             placeholder="Masukkan materi Materi" value="<?= set_value('berkas'); ?>">
-                        <small>format file : PDF, DOCX, PPTX, Video Maximal 50Mb</small>
+                        <small>format file : PDF, DOCX, PPTX, Video. Maximal 50Mb</small>
                         <div class="invalid-feedback <?= !empty(form_error('berkas')) ? 'd-block' : '' ; ?> ">
                             <?= form_error('berkas') ?>
                         </div>

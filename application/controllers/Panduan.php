@@ -29,7 +29,7 @@ class Panduan extends CI_Controller {
 		// echo "</pre>";
 
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar', $data);
         $this->load->view('partials/topbar');
         $this->load->view('panduan/panduan', $data);
 		$this->load->view('partials/footer');

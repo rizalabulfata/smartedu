@@ -40,8 +40,7 @@
                     <div class="col-sm-6">
                         <label class="form-label font-weight-bold">Mata Pelajaran<span
                                 class="text-danger">*</span></label>
-                        <select name="namaMapel" class="form-control">
-                            <option disabled selected>Pilih Mata Pelajaran</option>
+                        <select name="namaMapel[]" class="form-control multiple-table" multiple="multiple">
                             <?php 
                             foreach($mapel as $val){
                             ?>
@@ -87,10 +86,17 @@
 
 <script>
 $(document).ready(function() {
+    $('.multiple-table').select2({
+        placeholder: "Pilih Mata Pelajaran",
+        allowClear: true
+    });
+
+
     $("#namaLengkap").change(function() {
         var namaLengkap = $(this).val().toLowerCase();
         var username = namaLengkap.replace(/\s+/g, '.');
         $('#username').val(username);
     });
+
 });
 </script>

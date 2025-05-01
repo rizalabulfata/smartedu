@@ -29,7 +29,7 @@ class Siswa extends CI_Controller {
 		// echo "</pre>";
 
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar' , $data);
         $this->load->view('partials/topbar');
         $this->load->view('siswa/siswa', $data);
 		$this->load->view('partials/footer');
@@ -56,7 +56,7 @@ class Siswa extends CI_Controller {
 		);
 
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar' , $data);
         $this->load->view('partials/topbar');
         $this->load->view('siswa/siswa-tambah', $data);
 		$this->load->view('partials/footer');;
@@ -108,7 +108,7 @@ class Siswa extends CI_Controller {
 		// echo "</pre>";
 
 		$this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar' , $data);
         $this->load->view('partials/topbar');
         $this->load->view('siswa/siswa-edit', $data);
 		$this->load->view('partials/footer');

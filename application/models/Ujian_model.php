@@ -27,7 +27,7 @@ class ujian_model extends CI_Model {
 
 	public function get_all()
 	{
-		$this->db->select("u.*,m.nama AS mapel_nama, DATE_FORMAT(u.tgl_mulai, '%d-%m-%Y %H:%m') as tgl_mulai_formatted, DATE_FORMAT(u.tgl_selesai, '%d-%m-%Y %H:%m') as tgl_selesai_formatted, g.nama AS guru_nama", FALSE);
+		$this->db->select("u.*,m.nama AS mapel_nama, DATE_FORMAT(u.tgl_mulai, '%H.%m WIB, %d %M %Y') as tgl_mulai_formatted, DATE_FORMAT(u.tgl_selesai, '%H.%m WIB, %d %M %Y') as tgl_selesai_formatted, g.nama AS guru_nama", FALSE);
 		$this->db->from('ujian u');
 		$this->db->join('guru g', 'g.uuid = u.created_by', 'left');
 		$this->db->join('mapel m', 'm.uuid = u.mapel_uuid', 'left');
@@ -75,9 +75,19 @@ class ujian_model extends CI_Model {
 
 	public function get_by_uuid($uuid)
 	{
-		$data = $this->db->get_where('ujian', array('uuid' => $uuid))->row();
+		// $data = $this->db->get_where('ujian', array('uuid' => $uuid))->row();
+
+		$this->db->select("u.*,m.nama AS mapel_nama, DATE_FORMAT(u.tgl_mulai, '%H.%m WIB, %d %M %Y') as tgl_mulai_formatted, DATE_FORMAT(u.tgl_selesai, '%H.%m WIB, %d %M %Y') as tgl_selesai_formatted, g.nama AS guru_nama", FALSE);
+		$this->db->from('ujian u');
+		$this->db->join('guru g', 'g.uuid = u.created_by', 'left');
+		$this->db->join('mapel m', 'm.uuid = u.mapel_uuid', 'left');
+		$this->db->where('u.deleted_at', NULL, FALSE);
+		$this->db->where('u.uuid', $uuid);
+		$this->db->order_by('u.modified_at', 'DESC');
 		
-		return $data;
+		return $this->db->get()->row();
+		
+		// return $data;
 	}
 
 	public function get_jawaban_siswa_by_ujian_siswa_uuid($ujian_uuid , $siswa_uuid)
@@ -106,10 +116,16 @@ class ujian_model extends CI_Model {
 			$this->db->where('ujian_uuid', $ujian_uuid);
 			$this->db->where('created_by', $siswa_uuid);
 			$this->db->where('deleted_at', NULL, FALSE);
+			$this->db->order_by('id', 'DESC');
 			$this->db->group_by('ujian_uuid');
 			
 			// return $this->db->get()->result();
-			return $this->db->get()->row(); 
+			$data = $this->db->get()->row(); 
+			return $data;
+			// echo"<pre>";
+			// print_r($data);
+			// echo"</pre>";
+			// exit;
 
 	}
 

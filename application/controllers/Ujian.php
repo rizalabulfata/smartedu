@@ -33,15 +33,14 @@ class Ujian extends CI_Controller {
 			
 			foreach ($peserta as $p){
 				foreach($p as $q){
-					// echo"<pre>";
-					// print_r($q);
-					// echo"</pre>";
 					if ($q->ujian_uuid == $u->uuid && $q->siswa_uuid == $user_login) {
 						$pengerjaan = true;
-						break;
-					} else if ($this->ujian_model->get_pengumpulan_siswa($q->ujian_uuid, $user_login)) {
+						// break;
+					} 
+					if ($this->ujian_model->get_pengumpulan_siswa($q->ujian_uuid, $user_login) != NULL) {
 						$pengumpulan = true;
-						break;
+						// break;
+						
 					}
 				}
 			}
@@ -55,12 +54,12 @@ class Ujian extends CI_Controller {
 			'peserta' => $peserta,
 			'active_nav' => 'ujian'
 		);
-		echo"<pre>";
-		print_r($ujian);
-		echo"</pre>";
+		// echo"<pre>";
+		// print_r($ujian);
+		// echo"</pre>";
 		
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar', $data);
         $this->load->view('partials/topbar');
         $this->load->view('ujian/ujian', $data);
 		$this->load->view('partials/footer');
@@ -90,14 +89,18 @@ class Ujian extends CI_Controller {
 		
 		}
 
-		$mapel = $this->mapel_model->get_all();
+		$guru_uuid = $this->session->userdata('uuid');
+		$guru = $this->guru_model->get_by_uuid($guru_uuid);
+		$mapel_list = json_decode($guru->mapel_uuid);
+		$mapel = $this->mapel_model->get_many_mapel_by_uuid($mapel_list);
+		
 		$data = array(
 			'mapel' => $mapel,
 			'active_nav' => 'ujian'
 		);
 
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar', $data);
         $this->load->view('partials/topbar');
         $this->load->view('ujian/ujian-tambah', $data);
 		$this->load->view('partials/footer');
@@ -135,7 +138,7 @@ class Ujian extends CI_Controller {
 		// echo"</pre>";
 		
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar', $data);
         $this->load->view('partials/topbar');
         $this->load->view('ujian/ujian-soal', $data);
 		$this->load->view('partials/footer');
@@ -180,8 +183,11 @@ class Ujian extends CI_Controller {
 		);
 
 		
+		// echo '<pre>';
+		// print_r($data);
+		// echo '</pre>';
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar', $data);
         $this->load->view('partials/topbar');
         $this->load->view('ujian/ujian-siswa', $data);
 		$this->load->view('partials/footer');
@@ -239,7 +245,7 @@ class Ujian extends CI_Controller {
 		// echo"</pre>";
 		
 		$this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar', $data);
         $this->load->view('partials/topbar');
         $this->load->view('ujian/ujian-nilai', $data);
 		$this->load->view('partials/footer');
@@ -271,7 +277,7 @@ class Ujian extends CI_Controller {
 
 	public function hapus_siswa($relasi_uuid){
 		{
-			$result = $this->siswa_model->delete_siswa_ujian_by_uuid($relasi_uuid);
+			$result = $this->siswa_model->delete_siswa_ujian_and_ujian_jawaban_by_uuid($relasi_uuid);
 			if ($result) {
 				$this->session->set_flashdata('success_msg', 'Data siswa ujian berhasil dihapus');
 			} else {

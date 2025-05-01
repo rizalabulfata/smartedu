@@ -62,14 +62,14 @@
                             <td>
                                 <?php if($this->session->userdata('role') != 2 ){?>
                                 <?php if($val->pengerjaan == 1 && $val->pengumpulan == 1) { ?>
-                                <a class="btn btn-sm btn-primary btn-pengerjaan" data-uuid="<?= $val->uuid ?>"><i
-                                        class="fas fa-play text-white"></i>
-                                    Mulai Mengerjakan</a>
-                                <?php } else if($val->pengumpulan != 1) { ?>
                                 <span class="text-muted small d-block text-center">
                                     Anda sudah mengerjakan ujian ini.
                                 </span>
-                                <?php } else{ ?>
+                                <?php } else if($val->pengerjaan == 1 && $val->pengumpulan == NULL) { ?>
+                                <a class="btn btn-sm btn-primary btn-pengerjaan" data-uuid="<?= $val->uuid ?>"><i
+                                        class="fas fa-play text-white"></i>
+                                    Mulai Mengerjakan</a>
+                                <?php } else if($val->pengerjaan == NULL && $val->pengumpulan == NULL ){ ?>
                                 <span class="text-danger small d-block text-center">
                                     Anda bukan peserta ujian ini.
                                 </span>

@@ -19,23 +19,27 @@ class Guru extends CI_Controller {
 	public function index()
 	{
 		$guru = $this->guru_model->get_all();
-
 		foreach ($guru as $val) {
-			$mapel = $this->mapel_model->get_by_uuid($val->mapel_uuid);
-			$val->mapel_nama = $mapel ? $mapel->nama : NULL;
+			$uuid_array = json_decode($val->mapel_uuid); // array UUID
+			$mapel_list = $this->mapel_model->get_many_mapel_by_uuid($uuid_array); // ambil semua mapel
+
+			$val->mapel_nama = array_map(function($m) {
+				return $m->nama;
+			}, $mapel_list);
 		}
+		
 
 		$data = array(
 			'guru' => $guru,
 			'active_nav' => 'guru'
 		);
-		
+
 		// echo "<pre>";
-		// print_r($this->session->userdata());
-		// echo "</pre>";
+		// 	print_r($guru);
+		// 	echo "</pre>";
 
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar', $data);
         $this->load->view('partials/topbar');
         $this->load->view('guru/guru', $data);
 		$this->load->view('partials/footer');
@@ -48,6 +52,10 @@ class Guru extends CI_Controller {
 
 		if ($this->form_validation->run() == TRUE) {
 			$insert = $this->guru_model->insert();
+			// echo "<pre>";
+			// print_r($insert);
+			// echo "</pre>";
+			// exit;
 			if ($insert) {
 				$this->session->set_flashdata('success_msg', 'Data guru berhasil di simpan');
 				redirect('guru');
@@ -61,12 +69,9 @@ class Guru extends CI_Controller {
 			'mapel' => $this->mapel_model->get_all(),
 			'active_nav' => 'guru'
 		);
-		// echo "<pre>";
-		// print_r($data);
-		// echo "</pre>";
 
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar', $data);
         $this->load->view('partials/topbar');
         $this->load->view('guru/guru-tambah', $data);
 		$this->load->view('partials/footer');;
@@ -83,7 +88,7 @@ class Guru extends CI_Controller {
 				'label' => 'Username',
 				'rules' => 'required|regex_match[/^[a-z]/]|callback_username_check'
 			],[
-				'field' => 'namaMapel',
+				'field' => 'namaMapel[]',
 				'label' => 'Nama Mata Pelajaran',
 				'rules' => 'required'
 			],[
@@ -105,13 +110,17 @@ class Guru extends CI_Controller {
 			}
 		}
 
+		$guru = $this->guru_model->get_by_uuid($uuid);
+		$mapel_list = json_decode($guru->mapel_uuid); // array UUID
+
 		$data = array(
-			'guru' => $this->guru_model->get_by_uuid($uuid),
+			'guru' => $guru,
+			'mapel_list' => $mapel_list,
 			'mapel' => $this->mapel_model->get_all(),
 			'active_nav' => 'guru'
 		);
 		// 		echo "<pre>";
-		// print_r($data);
+		// print_r($mapel_list);
 		// echo "</pre>";
 
 		$this->load->view('partials/header');

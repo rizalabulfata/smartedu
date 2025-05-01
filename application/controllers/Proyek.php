@@ -51,7 +51,7 @@ class Proyek extends CI_Controller {
 		// echo"</pre>";
 		
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar',$data);
         $this->load->view('partials/topbar');
         $this->load->view('proyek/proyek', $data);
 		$this->load->view('partials/footer');
@@ -94,15 +94,24 @@ class Proyek extends CI_Controller {
 				}
 			}
 		}
-		$mapel = $this->mapel_model->get_all();
+		
+		$guru_uuid = $this->session->userdata('uuid');
+		$guru = $this->guru_model->get_by_uuid($guru_uuid);
+		$mapel_list = json_decode($guru->mapel_uuid);
+		$mapel = $this->mapel_model->get_many_mapel_by_uuid($mapel_list);
+		
 		$data = array(
 			'mapel' => $mapel,
 			'active_nav' => 'proyek'
 		);
+
+		// echo"<pre>";
+		// print_r($data);
+		// echo"</pre>";
         
-        $this->load->view('partials/header',$data);
-		$this->load->view('partials/sidebar');
-        $this->load->view('partials/topbar',$data);
+        $this->load->view('partials/header');
+		$this->load->view('partials/sidebar',$data);
+        $this->load->view('partials/topbar');
         $this->load->view('proyek/proyek-tambah',$data);
 		$this->load->view('partials/footer');
 	}
@@ -177,7 +186,7 @@ class Proyek extends CI_Controller {
 		// echo "</pre>";
 		
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar',$data);
         $this->load->view('partials/topbar');
         $this->load->view('proyek/proyek-detail', $data);
 		$this->load->view('partials/footer');
@@ -199,7 +208,7 @@ class Proyek extends CI_Controller {
 		// echo "</pre>";
 		
         $this->load->view('partials/header');
-		$this->load->view('partials/sidebar');
+		$this->load->view('partials/sidebar',$data);
         $this->load->view('partials/topbar');
         $this->load->view('proyek/proyek-pilih-siswa', $data);
 		$this->load->view('partials/footer');

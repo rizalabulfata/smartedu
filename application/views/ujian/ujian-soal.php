@@ -23,6 +23,40 @@
             <li class="breadcrumb-item active" aria-current="page">Tambah Soal Ujian</li>
         </ol>
     </nav>
+
+    <div class="card shadow mb-4 ">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Detail Ujian</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <colgroup>
+                    <col style="width: 30%;"> <!-- Kolom kiri (label) -->
+                    <col style="width: 70%;"> <!-- Kolom kanan (isi) -->
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td class="table-primary font-weight-bold">Nama Ujian</td>
+                        <td><?= $ujian->nama; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="table-primary font-weight-bold">Mata Pelajaran</td>
+                        <td><?= $ujian->mapel_nama; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="table-primary font-weight-bold">Dibuat Oleh</td>
+                        <td><?= $ujian->guru_nama; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="table-primary font-weight-bold">Tanggal Dibuat</td>
+                        <td><?= date('H:i, d M Y', strtotime($ujian->modified_at)); ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
     <div class="card shadow mb-4">
         <div class="card-body">
             <!-- Form untuk menambahkan soal -->
@@ -72,6 +106,9 @@
                     </tbody>
                 </table>
             </div>
+            <a href="<?= base_url('ujian')?>" class="btn btn-md btn-danger">
+                <i class="fa fa-arrow-left"></i> Kembali
+            </a>
         </div>
 
     </div>

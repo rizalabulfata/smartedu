@@ -35,10 +35,10 @@
                     <h5 class="mb-0">Detail Ujian</h5>
                 </div>
                 <div class="card-body">
-                    <p><strong>Nama Ujian :</strong> <?= $ujian->nama; ?></p>
-                    <p><strong>Mata Pelajaran :</strong> <?= $mapel; ?></p>
-                    <p><strong>Nama Siswa :</strong> <?= $siswa->nama; ?></p>
-                    <p><strong>Guru Pengajar :</strong> <?= $guru; ?></p>
+                    <p>Nama Ujian : <strong> <?= $ujian->nama; ?> </strong> </p>
+                    <p>Mata Pelajaran : <strong> <?= $mapel; ?> </strong> </p>
+                    <p>Nama Siswa : <strong> <?= $siswa->nama; ?> </strong> </p>
+                    <p>Guru Pengajar : <strong> <?= $guru; ?> </strong> </p>
                 </div>
             </div>
         </div>
