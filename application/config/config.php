@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 $config['base_url'] = 'http://localhost/smartedu/';
-// $config['base_url'] = 'https://ad8e-180-247-56-77.ngrok-free.app/smartedu/';
+// $config['base_url'] = 'https://d442-114-5-222-198.ngrok-free.app/smartedu/';
 /*
 |--------------------------------------------------------------------------
 | Index File
